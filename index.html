@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankita Pam — Supply Chain Leader & AI Systems Builder</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+:root {
+  --ink: #0f0f1a;
+  --bg: #f0efe9;
+  --border: #e2e0d8;
+  --muted: #706e66;
+  --gold: #c8922a;
+  --gold-tint: #f9eed6;
+  --teal: #2d7a6e;
+  --teal-tint: #e0f2ef;
+  --silver: #7a8899;
+  --silver-tint: #e7ecf1;
+  --bronze: #9c6b3c;
+  --bronze-tint: #f4e6d8;
+  --blue: #4a5f9e;
+  --blue-tint: #e7ebf8;
+  --indigo: #5b4b8a;
+  --indigo-tint: #ece7f7;
+  --rose: #a3555a;
+  --rose-tint: #f6e4e3;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+}
+body.modal-locked { overflow: hidden; }
+
+/* ── TOP NAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 28px;
+  background: rgba(240,239,233,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 1.25rem; color: var(--ink);
+  background: white; border-radius: 24px;
+  padding: 7px 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.tabs {
+  display: flex; gap: 4px; background: white; border-radius: 24px;
+  padding: 4px; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.tab {
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+  color: var(--muted); padding: 7px 16px; border-radius: 20px;
+  transition: all 0.15s;
+}
+.tab.active { background: var(--ink); color: white; }
+.tab:not(.active):hover { color: var(--ink); }
+.nav-links { display: flex; gap: 10px; }
+.nav-link {
+  font-size: 0.76rem; font-weight: 600; color: var(--muted);
+  text-decoration: none; padding: 8px 4px;
+}
+.nav-link:hover { color: var(--gold); }
+
+/* ── PAGE / BENTO GRID ── */
+.page { max-width: 1320px; margin: 0 auto; padding: 20px 28px 40px; }
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: dense;
+  align-items: start;
+  gap: 14px;
+}
+.span-1 { grid-column: span 1; }
+.span-2 { grid-column: span 2; }
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+
+@media (max-width: 900px) {
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .span-3, .span-4 { grid-column: 1 / -1; }
+  .topnav { padding: 10px 16px; }
+  .page { padding: 16px 16px 32px; }
+}
+@media (max-width: 620px) {
+  .bento { grid-template-columns: 1fr; }
+  .span-1, .span-2, .span-3, .span-4 { grid-column: 1 / -1; }
+}
+
+.row-label {
+  grid-column: 1 / -1;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 18px;
+}
+.row-label .line { flex: 1; height: 1px; background: var(--border); }
+.row-label:first-child { margin-top: 0; }
+.section-title-center {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.7rem;
+  color: var(--ink);
+  margin: 10px 0 22px;
+}
+
+/* ── GENERIC CARD ── */
+.card {
+  border-radius: 20px; padding: 22px 24px;
+  position: relative; overflow: hidden;
+}
+.bg-white  { background: #ffffff; box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
+.bg-dark   { background: var(--ink); color: white; }
+.bg-gold   { background: var(--gold-tint); }
+.bg-teal   { background: var(--teal-tint); }
+.bg-bronze { background: var(--bronze-tint); }
+.bg-blue   { background: var(--blue-tint); }
+.bg-silver { background: var(--silver-tint); }
+.bg-indigo { background: var(--indigo-tint); }
+.bg-rose   { background: var(--rose-tint); }
+
+.card.modal-trigger { cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.card.modal-trigger:hover { transform: translateY(-2px); }
+
+/* ── HERO ROW (intro + adaptability): matched height, CTA pinned to bottom ── */
+.hero-card { display: flex; flex-direction: column; min-height: 210px; }
+.hero-card > *:last-child { margin-top: auto; padding-top: 10px; }
+.bg-white.modal-trigger:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+
+/* ── INTRO CARD ── */
+.intro-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.intro-avatar-img {
+  width: 68px; height: 68px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+.intro-hey { color: var(--teal); font-size: 0.78rem; font-weight: 600; margin-bottom: 5px; letter-spacing: 0.01em; }
+.intro-name { font-family: 'DM Serif Display', serif; font-size: 1.2rem; }
+.intro-bio { font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 12px; }
+.card-cta {
+  font-size: 0.75rem; font-weight: 700; color: var(--gold);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+}
+
+/* ── STAT CARDS ── */
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 1.35rem; line-height: 1; color: var(--gold); margin: 6px 0 8px; }
+.stat-label { font-size: 0.78rem; margin-top: 8px; line-height: 1.55; font-weight: 500; color: var(--muted); }
+.stat-sub { font-size: 0.72rem; margin-top: 8px; line-height: 1.5; font-style: italic; opacity: 0.75; }
+.bg-dark .stat-num { color: #f0c070; }
+.bg-dark .stat-label { color: rgba(255,255,255,0.65); }
+.bg-dark .stat-sub { color: rgba(255,255,255,0.55); }
+
+/* ── LEADERSHIP CARD (ENABLE — LEADERSHIP): scaled up + traits row to fill the tile ── */
+.leadership-card { display: flex; flex-direction: column; }
+.leadership-traits { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 10px; }
+.leadership-traits span {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.02em;
+  color: var(--rose); background: rgba(255,255,255,0.6);
+  padding: 5px 13px; border-radius: 14px;
+}
+
+/* ── PILLAR ROW (Plan/Source/Make/Deliver + Enable) ── */
+.pillar-kicker {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.pk-teal   { color: var(--teal); }
+.pk-gold   { color: var(--gold); }
+.pk-bronze { color: var(--bronze); }
+.pk-blue   { color: var(--blue); }
+.pk-cream  { color: #f0c070; }
+.pk-indigo { color: var(--indigo); }
+.pk-silver { color: var(--silver); }
+.pk-rose   { color: var(--rose); }
+
+/* ── E2E GRID: self-contained so nothing else flows into it. Technology + Governance on
+   top, Plan/Source/Make/Deliver in the middle, People + Leadership on the bottom. ── */
+.e2e-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+@media(max-width:700px) { .e2e-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── mini contribution heatmap (decorative — not literal repo data) ── */
+.tech-stack { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: white; margin: 6px 0 8px; }
+.kicker-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.kicker-icon-emoji { width: 22px; height: 22px; font-size: 16px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.heatmap {
+  display: grid; grid-template-columns: repeat(30, 1fr); grid-auto-flow: column;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3px; margin: 10px auto 0; max-width: 420px;
+}
+.heatmap span { aspect-ratio: 1; border-radius: 2px; }
+.heatmap .h0 { background: rgba(255,255,255,0.06); }
+.heatmap .h1 { background: #0e4429; }
+.heatmap .h2 { background: #26a641; }
+.heatmap .h3 { background: #39d353; }
+.heatmap .h4 { background: #56f2a0; }
+.heatmap-caption { font-size: 0.66rem; color: rgba(255,255,255,0.45); margin-top: 6px; text-align: center; }
+
+/* ── PROJECT CARDS (face only — detail lives in hidden template, opened in modal) ── */
+.proj-kicker {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 8px; opacity: 0.7;
+}
+.proj-orb {
+  width: 26px; height: 26px; border-radius: 7px; background: white;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  flex-shrink: 0; font-size: 0.85rem;
+}
+.proj-orb img { width: 18px; height: 18px; object-fit: contain; }
+.proj-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; line-height: 1.3; margin-bottom: 8px; }
+.proj-hook { font-size: 0.8rem; line-height: 1.6; opacity: 0.85; margin-bottom: 12px; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.ptag {
+  font-size: 0.62rem; font-weight: 700; padding: 3px 9px; border-radius: 10px;
+  background: rgba(255,255,255,0.55); color: var(--ink);
+}
+.bg-dark .ptag { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.85); }
+.proj-cta { font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 5px; margin-top: 4px; }
+
+/* ── WRITING CARDS ── */
+.write-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--indigo); margin-bottom: 8px; }
+.write-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 8px; line-height: 1.35; }
+.write-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.65; margin-bottom: 12px; }
+.write-link { font-size: 0.74rem; font-weight: 700; color: var(--indigo); text-decoration: none; }
+.write-link:hover { text-decoration: underline; }
+
+/* ── LEADERSHIP ── */
+.lead-h { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: #f0c070; margin-bottom: 14px; }
+.lead-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media(max-width:700px) { .lead-grid { grid-template-columns: 1fr; } }
+.lead-item { display: flex; gap: 9px; }
+.lead-item .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.lead-item .text { font-size: 0.76rem; color: rgba(255,255,255,0.72); line-height: 1.55; }
+.lead-item .text strong { color: #f0c070; }
+
+/* ── TESTIMONIALS (scrolling ribbon) ── */
+.testi-h { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 14px; }
+.testi-marquee {
+  overflow: hidden; width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+.testi-track { display: flex; align-items: flex-start; gap: 20px; width: max-content; animation: testi-scroll 50s linear infinite; }
+.testi-track:hover { animation-play-state: paused; }
+@keyframes testi-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.testimonial {
+  flex: 0 0 320px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+}
+.testimonial p { font-size: 0.78rem; line-height: 1.6; color: var(--ink); font-style: italic; margin-bottom: 10px; }
+.testimonial-attr strong { display: block; font-size: 0.78rem; font-weight: 700; }
+.testimonial-attr span { font-size: 0.68rem; color: var(--muted); }
+
+/* ── AWARDS ── */
+.awards-h { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 14px; }
+.awards-mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 20px; }
+@media(max-width:900px) { .awards-mini-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:620px) { .awards-mini-grid { grid-template-columns: 1fr; } }
+.award-chip { display: flex; gap: 8px; align-items: flex-start; font-size: 0.72rem; }
+.award-chip .ic { font-size: 0.95rem; flex-shrink: 0; }
+.award-chip .an { font-weight: 600; }
+.award-chip .ao { color: var(--muted); font-size: 0.65rem; margin-top: 2px; }
+
+/* ── FOOTER ── */
+.footer-card { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.footer-h { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: #f0c070; }
+.footer-sub { font-size: 0.74rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+.footer-links { display: flex; gap: 8px; }
+.footer-link { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.74rem; padding: 7px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+.footer-link:hover { background: rgba(255,255,255,0.08); }
+.footnote { text-align: center; font-size: 0.64rem; color: var(--muted); margin-top: 18px; }
+
+/* ══════════ MODAL ══════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15,15,26,0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 28px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+  background: white; border-radius: 22px;
+  width: 100%; max-width: 660px; max-height: 86vh;
+  overflow-y: auto; position: relative;
+  padding: 44px 40px 36px;
+  transform: translateY(14px); transition: transform 0.18s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--bg); border: 1px solid var(--border);
+  font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.05em; color: var(--muted);
+  padding: 7px 16px; border-radius: 20px; cursor: pointer;
+}
+.modal-close:hover { color: var(--ink); border-color: var(--ink); }
+.modal-kicker {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 12px;
+}
+.modal-title {
+  font-family: 'DM Serif Display', serif; font-size: 1.55rem; line-height: 1.3; margin-bottom: 18px;
+}
+.modal-body p { font-size: 0.87rem; line-height: 1.8; color: var(--ink); margin-bottom: 15px; }
+.modal-body p:last-child { margin-bottom: 0; }
+.modal-body h5 {
+  text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.65rem; font-weight: 700;
+  color: var(--gold); margin: 18px 0 6px;
+}
+.modal-body h5:first-child { margin-top: 0; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); }
+.modal-tags span { background: var(--bg); border: 1px solid var(--border); font-size: 0.7rem; font-weight: 600; padding: 5px 13px; border-radius: 14px; }
+@media(max-width:620px){ .modal-box{ padding:32px 22px 26px; } .modal-title{ font-size:1.3rem; } }
+
+/* hidden source templates never render directly */
+.modal-source { display: none; }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="logo">AP</div>
+  <div class="tabs">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="about">About</button>
+    <button class="tab" data-filter="work">Work</button>
+    <button class="tab" data-filter="writing">Writing</button>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="https://www.linkedin.com/in/ankita-pamidighantam-b8113613a/" target="_blank">LinkedIn ↗</a>
+    <a class="nav-link" href="mailto:ankitanh@gmail.com">Email ↗</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="bento" id="bento">
+
+    <!-- ══ INTRO (click → bio modal) ══ -->
+    <div class="card bg-white span-2 modal-trigger hero-card" data-tab="about" data-modal="m-bio">
+      <div class="intro-header">
+        <img class="intro-avatar-img" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEAwQFBAQFBgoHBgYGBg0JCggKDw0QEA8NDw4RExgUERIXEg4PFRwVFxkZGxsbEBQdHx0aHxgaGxr/2wBDAQQFBQYFBgwHBwwaEQ8RGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhr/wAARCAFAAUADASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABQYEBwIDCAEACf/EAEAQAAEDAgQDBAgFAgYCAgMAAAECAxEABAUSITEGQVETImFxBxQjMoGRobFCwdHh8BVSFiQzYnLxCIIXQzSSov/EABwBAAIDAQEBAQAAAAAAAAAAAAMEAQIFAAYHCP/EACcRAAICAQQCAwADAQEBAAAAAAABAhEDBBIhMSJBBRMyFFFhQlKR/9oADAMBAAIRAxEAPwBVA1FbBtUbMfrWYVpXjUfQDeTKRWJO1ayTFYE6VYgN2ShpR1pYyCliyVtR1lXcrjrI1+RBpfdjtDrRq+OhpfdV36ijrNoIFbmlDTWoObStjbmtSQ+golQjevcwAioqF1kFSDVgQTtXAKMMvDL0petlbUVZWYNQy8TTiLog0q3Lg7TQ6z1pgxFRhRpVfVLxEx50aGJz6F8uZYnybSoaVsacSBqRUMODLqIM/Svg7B2ov8WQr/Pggqm4SK9auEhxPnQs3ECa0+tFK0+dWWllZR/IQrsZ7lwKSDWu0PthUNb2dCakWqvaor02khsifN/mMiyytB9eyTRzCFe7QNZ7ifzovhKtU1pI8oOtmrQUYYVpQGyVoKNMHQUQlBBs1pxHW3V5VsbNYXmrBqof0UR6Rmz2bhFVZhxi5+NW76REy058aqCxP+a+NK5f0Naf8FqYAr2aI6U72J7tIWAK9mgTT1h5lIqYiU1yA+Jky2qarpQyuK86sviMdxR8Krd6O0UB1qMitUOaWbhJNGKVwtMdaY7VyWvhS62yVLFMdm3DJ8qzcen2T3HqtTrvtwKIk8YAyqgOCqPbCmTi9PdJpZwc+3FOGI+Yjxb+4KkpOtRbf3BUlOhmrRMrKbCgxtWQRW4ivBtXgz9AmvIYrwtmK3bAisTtViKJlk3tR1hmUUEsjqKYbaMlcQDb5o6zFLlwiHKbL5GhpauhC6koQ8njWTaI3rM162NagkkNN+YrahAr5sVsTCakg3W6BIomwgDehzCST3iR4A0TZbUDm1gcjXUyU0iJfMBSTA1NKd5aEuc5B/CKeLpTTVv2i1AnUlI1IHjSdimN29qpUutpSlUhIOY69DW7osVK5Hlvlc9uoEdvDVBBWsBKAnXMZgVn6igJQStKc3VYH0oGMddxHtDbrC0DSdVJnaJ/7qGu6xB5ZSy+G8u5S2Ep+YE1srHE8w5z9sZF2QySCdN41oeWh2uU7pMGDQz1S9CZF+yoL3KXCDHUgz8qj3FviiJzZX25ISrNBTH+7b7VzxJeiFNv2Oxa9kkjWBW620eRSVbcR32GK7K8Zdcb0hLpgx4K2NMuFY5Z4k4nsFlLg95teih8KJBpOjK1eKe26tDgTLSTRTClaihY7zAI1+NT8LVChTSPPMdbFWgo3bnQTQCxV3RRy3OlFOQRbNfXWrCvKsG1Vsf1ZV5VUOuil/SEgll3yNUvaGLoz1q8uP28zLnkao1sZLs+dKZf0OYPyWXw8uUImnzDjoKr7h1XcTT9hx0FShOfbIfEQlpXlVZPR6woeNWdxCPYnyqs1j/OKB5mpkHwBGxtisgkUdbZyMq8q1YTb5kgxRR9rI2qo28Du61RXHFqZbVSnhOj6ab+K4La5pPww/5hNCL/API82plHSpQqHa+4KliuRm5icdjXg2r07ViNq8Iffz3aaxrL9KxqTibZGCJphtT3aXLM60w2h0qSrML0aGlu8HeplvNjFLd7oqpRRkQiske9XlZNmFVJzJjfKs2h2juhAgwCTArQXMgSE++owK9WtFq2p55SUIQNzy/SrpAZSonW7gBWMqpI7pI21/Svri89VSSVBoRBVngn4UjYhxzbtLUiwCrtf9yTCZn+7n8KEKu7nFHXHL64LSDqGkmQD56TWpg0kp03wYuq+Qx401HljViXFrBKUZ0kJ/sMGJ5a61X+J4pb399ClLzKMmRoBJ1Maf8Ae9Eb29tLK3RkCRoSVKhMq5fzxpERcm9ulGAZB/1CpYT00BAFa8YLHwjz7yyzu2OFreWQUGA+lWUKCEpcIOx10OhopZLtkwErf27wcMz8TrQGzwtk2yUltLSQk6oCO8T1kiaIsWJbDZZvRbkmDASTHmN/OmoiU0gw4y0s5Q0lGYkJVrJG/wAT86jv22VZUhTigmYh8iD5Hl9ulRVO3LJcU0426jQCIVIneCfHesxdte0bdS8w4kzHZqIPjqT8p+FFYCj5V06ylKFFbzShOVxMp8unxEVCuDbqWhTANo8kwmVZdZ/Crl5H4VL7UEhbLnciVIAOv88ahOuNgK7RaFjYtkgaeM0GSTCRdDVgnGT1qoWeLnOmYDsR8/1FWPg9w2/lcZUFIVqCDNc8OqdVmyEFpJAyqmU+VG+HeObrhh9IuXPWbVSvdIjTznQ/yaiGVwdS6M7VfHLKt+Lh/wBHUFirQUdtztrSLwhxNZcSWaX8NdSop/1G1GFo8x+dOtsrYHQ8q0E7Vo85KMoS2yVMKNmtrurSvKtDZrcrVs+VcFiVZx23mYdHnVFFATeK86v7jZEsuVQ1yMt8qf7jS2Xsbw9Dzw+e4in3DjoKr3h5XdTT9hyvdioQrk7McfHsFeVVisf58+dWhjYzW58qrF4RiHjNS+wuF8MdsDbzJTRG/bytq8q0YAiUIoniLXs1eVFa4CqRUnFQlC6SsOV/mAPGnjitPccpEsBFwk/7qTHEvEfbTVCamCoVkZbTU0VKM7MTSodaxChG9aMxr5Jrwh9+N4UD8qxzisByivANamiLJtosZqYLN0RSxbmFUctVGBrUkXZMu3BlNLV84Arajlye7S9egkmuIaNAdArJLozaVpy7SNqHY5ijOEWK3nzE6JTOpPSrRTk6QOclCLkwjieO2eDWnrV8oJjutwdVTrAFVljfFN1ji1Bwi3txqGBqfl1pfxnH7jFLtbr6pAOVsckjonoPGoKHFvkr0bKdBOkjqD/Jr0ODTqFN9nlNTqpZW1HoMC9UEJFqnstSVOOJmB1qba4mpJQtAW8CD7RxGXP5DmKXEXi3XUNNLzBJ7ynUAhHjBEH40dceFtb5FKLtwQCXM2Y7cuQ0NacVRi5eXQNvn1OO9pcEKUnQZtYMzoOZrJvEm0PJbbaDylEKKezByjmAADrP6Us314pTi+zWUo1BUncjoD+laG7lDfvFXdMhIOv0oHuxlRSVFlW1zarQDc4dcW6pABatssEbGTz2oy2q2cdnI6tam4yOESesaA1V9txCtnKEh5sDYJMfkT9acMKxhm9SEh66MiVB2HAPDKdRR4SsWyQoMqtrDs1RcXDC490NhXOeRHWKhXSwwklu7dcSBErTpPSPn8BW+4tWLhBdZtnHEZQSu2dCTPUgR4nal64aLbiuzU8pI691f0j6g+JojsAkiW5jTtqFKzJeQkDVJGgPj+tD14zaXRzNqDLk6pWDB5+YNalXTCyEstIU8BlLaj2ayPLZRoY+m0edJU0q1c1kAQD5j9KFJhYxQYW6HYE5XOSgdPMGvC8EEs3cKkabCZpaW5c2SsiHM7agSgL909dtI+VS7PE27ltLT4KZ91ClSP8A1VzFCfIZJDTw9xBf8I4g1d2DzmRlQMJPeSmdQR+JB6V1fwLxvY8YYch23cQl/LLjQVJTrGYdR9udcctKLWUZsyACUK66bUZ4W4pvOEsRavbNa/VwqXGuaZ3I8R9aviyvG69GfrdFHUxtfpHdDKpCSd6kEyg+VKXB3FdnxLhrL9s824pSAqUK0UOv7cjpTXPdNaiaatHlHFwdPsr7jNPsXK5/xA5b9Y/3V0JxmPYueRrnfFlZcRUP91L5RrTq7Q48POSlNWFhqpyxVa8Or7qasTDFTFViwGVVJk3GRNufKqyuhGIjzqz8U1tj5VWN/piAjrRGuiMb7H7h73U0axFPs1eVA+HD3EUexEeyPlRX+QkeyoOLtEuCq8slf5kD/dVh8YiA55mq0s1Rd/8AtSHs1EvAsSwMoTHSp4obhpltJHSiafCrIy8xtya716lGuprMivUDvbV4M+/GSWxIr3sxWaR0r6NauUZ8ygZjRm1QNKFNDvUXteVcQjZcIGWgV4gSdKYXxKaX78hMyYqpZkFa2mWluOQEpEknYVSHF3Ei8exKEOBNo3KW0pMyOunWnH0k8QepWLdgw4Q9dggpB1COvxNVQy+U95KiVARPh4VtaLAq+xnnfktQ2/qj17Ja05ncygDmhRJOg6ivlukgpRAQTlCQkd48j51HF0FJIJzIQe9p/NRXqX+1QosnMcuuUaj4Dr4VtRRgvo8du32lBphZSgE5lnYxvr0qam/QLRbapcX1jU+AFBF++or7iQe8VDn08qn2rjYRLaApcQgk/PT+cqIhaSBtyVrcWl4ZVA6Ach+tQXDl2cyidNCAetGLllbjfJPIEjT/ALoZ2LgKsvtADCzuKE40Gg7Ri0480FLbu1NkdCoflU+zxx5h5CnVW1zkOkpUlY8lJg1g3ad0LOZMATI5fnWlanUuEJSFJBn3B94qLovVjvhvE9k8hJClMPp1VKyoQOioBoi5i1utI7TJABglJV8JnrVfMXjce0t1Fw7ONnKR5gAg0YSG3EJUi4yOwICh2Z+khVEUuBeWJBi5Wh8HI9bKERmCoE9I0PymhF45dsZe1yXCByUoqA8iRP3oe6HkOHMlCVAx3T3T8j+1QzcO26j2SlNEbpzyk/CqOVkqO0JezUUuWy1Ngq/0nNYUOU9aEutKs3lLS2pCfxoIzA+I6fCtrV426Ch9ooKh76Nsw8PGvXXlABTJ9ZYUAQCqSnqJiRVS4TwrEUOjIpxDrZOkmD5KB1HmPPrU50Osp7RolTQMLSrWOevj0jf50qBCFkv2KSFJEuMqO45kUfwm+Fx2aMylNEZQTuI1yk845VzRHRZPow41/oGIJU06o2K1AqbzBJSdpHj9DzrrnBsZaxG1acbcDqXEZkqSIzDwHUcxuK4AuEqwu6DrUhGbVSddd9uhroX0PcepuLb1C8cHaIOYCdSJ99Pin6g+FM4Mm17WY3yOl3r7Y9+y2uMAFW7hBkRuK5vx05cRXy71dC8QXYurVzVOYiSU+6sHZQrnniWU4mrzo2Z8GPpou2M3Di+6mrGwtW1Vjw2vQVY+Fr92qRfAPOvIO4h3rU+VVdiel+P+VWhea2p8qrHGAU3yT/uowDH2PXDRltFMd+PZHypZ4YMoRTVeD2Xwo3/IRdlQcYtyl2qrYOW7P/Krc4yTAc+OlVCgxeq/5Ug+zVhzjLCww+yT5UVSZoLhaiWk9IowmTUozMxOiskjXSvhWSd68IffDMD4ivjvWYrxW9WKM9b98UVtaEo0XRW1VAE6VxyJb+jc8hSpizwaC3HNEpEx/PjTU8fZknToPzqsOPsWVa4TeKaJzABIP+46AfL86vjhvkkgebIscHJlLcS4m7i+N3Nw4SoqUUp/2pGwFBVrKjkSYnSttyQw2SrvOLMAdf4ag95KjBlR0kHnXqMcdqSR4qcnKTb9khVz2ICGgMqdCDsfOsrZYSjtQoq17o5/L86gf6jgQCco1J8KktAuntCYaQDEbgfrRk6BNWFA468ltPeSoGQNIJ8jUkBq2ydon1kxASQAkfLc1HbcLLSXHSGxAyoMkgeXWsmXivLGZAP4ivUA+Aq+4pssIqQ7ekSjs9JJS3rHTXQVKThgSgQglWwnb4dTXtokrKAEnINkndR6mmSxss4C1e8dBImB4UKeRILjwti0rCEpRNwhTiyf7tPKKhf0J15SsqQFHUkfhFWOMI7WAUTrK1KOw5AdTUtnAS5CEoCUTKzzNAc7GVjaKpVgTs5lIDg2EjX4Ea1tYw+4bQULKlMq2bcAWPgauD/Dba28zbZJI0jUmtTvDGVuezExrInnQ/saC/VF9lLXtiB/pjMk7oVuPnrQpaiwopcbLiORzagfKrkveDwtBK0gEnfrSbi/CT7aVZEKhOokfnUxy/2Unp3XAloctisEDs1c8yjEeYrWtvsBnQVIgxIEpUPGK+vLRdo6UuJhJOx0itbRUFlLa/fECNDPKmU7EXFxZ6FgEONKyOog/wA61LauEIcDghAcIzBOgC+WlC1uGYcEHrsa3NL7QZFQQNpH0P0+tWK1Y3mLljLcDRIhWX+3r5gmfKscAx254cxhpyYcZcC21zoqDt8RUHCb0uJbB/1ECCeakj84kfCt+J26S3PvwCNOnI1zVclavhnUNhxM1j2DMvWiveQSgHcGO8nx8vjyqs+JUhy9zJ36UpejzileHOnDbp0+rXBltR/A4NjTZjhLrmc77mKK571yYc9P9M3XQU4cVtVkYWr3TVZ8PK7wqxsMXomix6MnP+hne1tT5VWuOJi7B/3VZBM2x8qrzHk/5oH/AHUf0Kw7GrhdRKEQCab7oK7H3Tt0oHwclCW0U9X4QbYQBtR1+QsU2UdxiJDsjlVOqSBeriPeq6+OmwFOZeYqk3Tlvl6R3qQl+jTh+B6wgy0nyo2nYUBwdUsp8qOoOgrl2Z2YnB0QIFZJdE1DzaVkFajrXhD72Tw9pWCntdq0A6aV6oGasVo2pehU0TtHySCfhQVIJUOnOilvon9K4gk4leFFm6eiSTHQcvyqjvSVfKKreyJIKU9s74E7fzxq4cXUOzbaJCULJWs9Ep/eud+KcU/qOKXC0ky45p/wEx9AK1NDj3Ssxvksu2G1exTdSt+4zRCU7TyHKtbwhMt6d8gDxqYsDsVLHvL2/KtBaUp0IA1Ay+Vbu083ZoZZBCpmV6A9Ejn+dTEZG0oG6PwpIjTl/PGtjgCwEQAn3SANkjc1pClO53iQO0MJnQAcq58EJ2bEe1XmUoKE+6ft86IWlu4Fyoys8wRA8v1qBnDQlMlKRJAG2mlEbF5QYQkEpBO641+lUk6ReKtjNgzAzBSgpU7Aa052reYoK0JAGiUJOulLuCoBQAJWinTDmEgA5Qk9AmdKzsmRJmrixNoJ4fhy7nLOgUYhOkeVHmMJzqUSYaRIASnpzH1+te4MgrlGUpMydNQKa0WiW2Rk/EIBjWu32gv10BGbFLbaWwghMaGN6+Ni2pJAT1iDtR82xSjUHMOYrSttIUJAFU3EqIs3GGhwqOXTlG1BsQwRtaPaIzCNRFPLlqFJlJAOxIG/nUYWwWIWJO21DcgiiUpj/Abd2lWVspUdQqqix3h67wV4pdSSgGUqj6iuwX8OS4DKQSaSOJOE7a9bU2+gEGdY2omLO4sWzYIzV+zlq47xKoifoajtuFt3WIPKrA4o9H9zh7il2veQQSAB7w8PGq+u2eyWUrPeTyykGtOMlNWjIlBwfIYs3UW9ylef3jp0ncUxoWl0HNPfSCI5fzX5CkvOSwypJ7yCNOg3H501Wr+dDZT35AUNRtM/nRVzwBZqS76oAqIh3Kof2mJB+9WBhGLHGLJsPrJfQMsnWYGn6VX9wU9stCyAhadRPPl+dSuHcSNniPZPnKdugJn9aHdMHlxrJEt/h1QzT5VYmGrhKKrXBHAl/KNiQofY0/Yc5CE0ynweV1EfMc21BVsfKkDiQlLxPjTvbrzW3wpH4m98nxpi/ESgvMYOE8YDYSHCRFPVxjbbluAMxMVV3DacxTT2WfYAjpRIttDXCEni50vhwkaRVL3YyX6x41dPE6IQvrFUviYy4grTnSj7G4PwHDBVSymmBvYUtYGr2SaY2zpXLsQzEsIHSvsokaVlH3rzmK8CffjagCNq2KgCY5VgmNKzVy86uijPkpEjTWiFuoCCdBufIUP6RUy3IKiFe6EGrIpIX+Or82OF3KhIccZDaY5A6n5AfWudbk+0BV7y9J6AmKuH0m4n7RTKVCAktkkzqYJ+gA+NU+lKXbwCI1CdeX8k16PRQ247/s8l8jk3Za/oi5SlRcExqpIOw6eelZsiFjPuBETuoj96yujNsnNopRUT8TUfOQkSSCdQfpWn0ZF2b0FS2XMgIKldmjwHP61oKFl9ASCEpED/AIj/AKqS2pSbYKPdzDMD5jT7VglMIlR0Ovw51DLRZFuHi2rWCo67DQmp2G57q6PeJ9pHwEUKelagucsqImfKKaOE7AuOdpoEKXKZ6Url4jY1hW6SRYmA2JDSNJzalR507Yfa5QBmAG+g3oXhVplQ2BsN+sU52FuAmVjKI+lY7bbN+KUUSbBvKoD3iRoAIplsh22YuKPdOXLEa/HehTAYZj3VEfOiAuW57jmVR6b/ACqfJHNpk9wZUjeNtKGrXndI1I3Brf8A6jZKnFKJ+ZqKoFKl6gDkTz8Ki2RSJDTcpVJGv1rApQlchIzHQ1sbcAbJnyih+JYk3h7RdWQUj3tNtd6rTbOk0iRcdkkZyoDQiZ0pXxbGrK0ntXm0xuF86TOOPSEqzb7K0VDkmSToBJiqcxPH7vE1lXfcUdyTAp3Fg4tmbm1HNRLR4i4zwxSw2UyknQpE/bWq24tssNv2C/ZpHboEqUggZh+tQcOs728cSFKagnYOCQPKam3XDbzTS1tqkmZHWmKhB8MWe+a5RXjcJS4AswBMHzpjw17Na2+8NJKT46/vS/esKtbh8LEKBj4miuEOf5ZcztH502n7FWvRMcVnQk5omR9J/M1pcKlNIdTlCkKAJJ5ba1gp0IbaXMgPwfLKK9tyfbtc9UTGsz+sVVkFrcMYgHre1ezyBAUeh2NWhh7hyJJ+YqieBr4KKrd0yEkSD8jV24EsrtWsx7wEeZHKrwd8HntdjUZ2O9mubbedKT+JhqZpwsk/5eR0pS4mGp6U4ujET8yXwqkKy1Yhb/yw8qrzhEyUirKCZtR5UeK4CN2yveJ0yFTVKY03lvlGKvLihOiqpPHkhN4qNNaVl2OQfiG8CPsk+VMzRkDpSrgRlsU0tDQVUTyk87mvtOdZEd4868NeBPvqNqKyO6fM1iivVjVPnUohnqjpUoOhhl51X4ESaidBWN45Fm4nqZV/xTqftRY8sDN0rKg45uc10pCj3yvXXWdz96SUgIzKVqZkHrrH60T4pvV3GIlxehUFLgfzwoVdr7J0JzbITsN9q9Zp1UEjxGpblNs0Xqs7DAQRMrSfn+1RifZJTBJCQD8K3OjMjUa9opYT4GvFqbCSQjSeZn+b0wJpUfOKm0ZMnNoPLfT5VsZJcadSfdElJHLl961Oqmw1BORwwR06VnhupdbnlA/KpJ6NfYpIKVjQanL02P3mnjhbK020kpCVCAPOf+vnSiCgOhBITpKZ5Tv9xRG3vHrFZRaE9pGhjRH81pbNG0N6ee12XIMessItCVLS9cTCUA6FXUnoKDuekZduiS6SSdI5f90oWuDXV7bpcdc7saJExPkfvXj2EMqSotBdwpAlxQVlQgc5NJxUIj055Jf4HX/ShdrXnZXl5DkBpv415b+lO/QoJcUlUbROppOctbUOpQm9tVvKMBpCFOqMnx0PwojbMLsHEJctrZ9J3QWi0sjyP6UWTSXQCKk3+i0sH9Ia78oYuQWpAKYOs+fOm63x4XjakkapOXwNIOBf0jEGULDPZ8lEbpO0EU94XhbUqWwrNOsz13NIylF+jRhGa7YWRiaS2ESZgGANqSuIsRVcreaCR2Z0k8qaE4M8hKnEZlHnI0A6TSzxFbqtrYuKT7QbwI1qY/4dl5RTfEbaLZ6Fo9avnSezbUZSgdTQFti1Vcoau3VXtwoSW2/dT8hAFPfDvD54n4pcTcH2YEr13TyT8dz4UpXtnimCv3+GqYtrK9buXHXnlN5XVoIgIC5gt6AhIG+s1o4sdx3SMnLPbLbHsZLjgHELfCWsTRg6HrFYCkvWlwlw5evKoVpi7fY9i3cB6Nm1+8PA1bHo5TcYV6O7prEHMrVwtbjKHOQIGseJBNVXdcPi5xtxVqggTKlJ0Bk12fHCNUV0uTJPdu9CLxbb9s4m4bTAXqaFYc5CXQf79f8A9asvHuGnDZqSUHQGDHOq1ZaNutxtQgzrUYpWqLZY1Kze7CmMoGucH6GskKyXB5AuE/CtDy++1r3Zn6GvVGFqI/CIowuMnDp7HFUOSAh1OsczEEfGCfhXQPCzodsm1HmQr6wfrXOuGXORTLokhK5KfD+RV58EXgOHtoUdUrKQZ5E1aL5Mf5KFxstWzRlZWn+0kUq8TN7012LgcbUqQc2ulLnEqO4o07Ho8tG1I0cJK76Zq0mtbSqp4UX7QDxq17bW08YpiPQb2IvFSYSfKqS4hEXSqvHipPdJqkOJP/yTOlLS/Q1jvaTOHz7MU2NbCk/h5UoFN7OqRFU9iuV8k5SzmNeZzBk18tBznSvMp6V4Oj77ZuQsxWSicunLWsUIMVuDRjWpIs1lRJoRxBdljDn1AwpTakJnqr9qMlsilTioq9VVPuDOd4nuiDPxo+GNzQpqJ7YMpzF1n11ajJKUZYPKhl3Kn0xGqUgAHnU/GCE3zo5ADX4fvQlbsKUVHYlPiI516fH0eOnzJm1T/dUoiSFESRtAr5SAWFxySnfUfzSoTz+bMnQHNO3hUli8SULzp0yq0HkaYuxdxNoJTbqBSO6qY6/ya8w4ZbxQAhKhmAPMisc5Q2SYhQ+//VRw6A82AcqgEk67aVxCRndOFt0Sr3enMbfaPlTBg1w2/wBmXss7T18DSveL7ZU7EnTwPMUV4eZXc9xMkiTA5GgZHwM4l5IsC6xppFmE5ilKRCgnp+VZ4VglzxFhGJPgqS4ywr1WySdCoDdQ5nmBttWyy4beUyhNyjMVDvKjemHA8CuMMuS5bPOW6YIkHLSUHGDtmhKEskaRUblo5bYY02zhVuh1BWX7lS1LcclQyiCYTl193UzrXQVrgDV96P8ADn+JG0i4Sykku6L8DPIxFDbjAsJD4vXl2vrpVn7VWQKnrHP5V5cB7EjlbD+IKOoUqSkfE6fIUz/IW2hRaOTkmBMNw71O9Qqze9aaXmOZA1Skf38j571YODhbSlAHMjKDp0qDgXCl3m7S7UrKdkI2HhTrY8PLtW8ykGF6AdBWZlS7NnHxwxpwdhN7btJ90GM3LNQDj/hjPbhbCMu8jwpgwjNbFpMmEx5Hwppx2xF3hRWEaoTmHPTpXQdxBZVUjlm0wJzB7h9+3Ny1cLWVDs4gDwn+aVMunLq9CBeWTtyse6tbSVEDzy1d1hgLNyQBbtvW6wc+bdJ5adKO23BNjmSttOWdppiOVtUmLuEb5Rz03hOKYwUpFlcFKdB2kpSPnFMOFeju4ZPaPISSr8IFX4zw3bMJhSRMwNOdTlYQwlQHZ5cgkFJiT0oUpMvFROceIOEQixclKSAIOkgGuauM8H/pWLPQISsSPrXfHFeDhbCvVkJSD73VVcaemKw9SxFqQYzZSTz1P5VfDN7qBZ4+NlTPa5ddlFO9eJUChagSZg1jO4nVKioV4z/bsIj4zNaRmB7CwFW4mTBiPOre4FuS5alKD3jCkGdzr9T+VVDgs9krLzX9Zqy/R49lWlkkgpSlPgNZT9zXexLWRvEy98Dc7S2SoamIJ2oXxHORWgHlUnhtzKl5o7ZyRWriBHs1GnsfR4yXGQDcLLUH4PWrdsjNp8Kp7hs5Lk6/iq3sOVNr8KYh0HkKHFf+mr41RvFAh/ar04pTKFVR/FAh0+Zpef6GMPR9w+vQCnK2MgUjYArUU7WplIqiFMv6Zap4HbKiSCfjW5HA7PNH1plXjNsk6rT86x/xBaj8YrCWnwn0t6/UsDN8FW4/AmpSOD7dI/00/Kpw4jtR+OvDxNbAHvVb6sKK/wAvUsG3XC9u22ohCYBA23mqx9J+EIsEWjRQFJcYeWpIMHuhMfcfKrPueJbd1YTm7ocn4xVSek/HWMTvwtJhKUpbA8SpEnTyqVDGnwV+7PL9HOmLaXC1EDvEmPAUBdVDrhEwVEj40xY8keuPJSRlDqgI23pau40y/iAmnI9C8jSpZzyf7azzQSORTFakgqXHKPpWalCc2U6dDVwZvVcKKRB1EyPtWhZCn/IGawnfoSa8Rqsnepsk3FWZwjeROtN3AkKulF3VKQTtSg0M7w1gHSnjgG2Ut5xKQSDA855fnQMz8RjArmjovh3CBcMIXcZScogBIEgdKebHgm3dEFtK/wC/MPtQ/hmxFu0ylYlTaNIGg0Gg/nOrHwlsuIGUBJVCjO4rK3Ns3NiSsWLb0bWmdZ7JslWoKkiQemgonb8D27REpGYfhGxp2bYQykJUpSuZJNaLi/bt8oyjKCBJMcuVG4XYBtvoX/8ADjDAMICY6neor7DFu2pTkJO8TWnH+LkMoKGO6smO9ypftLgX1utxx5Sys6CedAyST6GMeOVWwraDtX8zZhM8qfWkpfw8tk6kdeVVvg102y9kdOUA8+VMzmMIZ7rbmYDQRUY5JdkZYuVJEZ1DuEvLLcKSrUgGa8sONGRcqt7lBYcBjKaX+JOLrTDWy5evNtzokqOpPIUj8ScT292u0ubWVuoBCyOY0ipv+gSgr5L+YxllxAghQ8q2G/CgpSxABgHaqU4Z4wbufZh1SXUiSknWnM4y4psQrlzqrm32F+pLoY8SukvIMkEeNcj/APkTZIQ9YXDQAlxTao6RpXRN9iYCD3uWutc1envFUuN2LJMrXcEjyA1ouBt5EK6hKMGUMky4B10NesGCBzzgfnWK0w/B0mazKSFqI0Bg/etkxQ5gpCVPzoga+XWn/gt0t4u7bzHajQeUx+VV/hJI7YqEEmfkf3p0wB0oxWxdKvx5CSdjEfpVWBzLdjaOgcAcCz2iTBX3o/nnWziBPsSdqgcPrCQlE6pCdvI0T4gT7IkbEa0/i6PD5VWQV+HzF4obd6rcwszbfCqiwURfED+6rbwjW3jwpmBcXeJ0y2s1RnF4hc+NXzxIPZLqi+ME98noaXydjOEFYAe8KebQ90UiYEodp8aebP3RVRTN+mMT+JXOc98itXr9wf8A7DXzzSirQH5VgLdwxCFH/wBa8rbPr9RNzV08f/sNSkuukarVWm3snjsyv5URasLjTKyufKo5O4BTrjkrAWqdCJP86UhcV5v6i0knuqMwDvBJqzHMJue2T7Fepg6eFVzxdYPtXDDy0EKC1oSdzrB/OjYnyAzNbSqcSSVPOLA5lR6b0rXgKVainDEGu8oJBIKjBGgiYpYxFgocXJkgma1YdGRPsGp98/8AGtipMxvNaRIXyreTAOnlRATNcAhRjavWUwlR6aCvPdT5+NbNG2zPLU1xyMmY76o90QPM1a/ops+1ukuL90OA/KqjS4YSkc9f3q4/RdchDCkcxtSmpbUB7SJOZ0thFwkZQPcSIHnzpww7EFIVvAqqsKv8iUnYRv0pptsVSke8BprrvWOpUegpND1cYrmbylcAjWDSzjeNpZbWsKBIG870IfxkKSVZikR+IQarri3irtVCytVZnnNNOQ60RNsq4qJtOJP4ziT2SSy2YkbE1uffvWGXWWLlbIVPPUeRr7AW27a0Q2iJA73ia2YiWWwXHX0tp5EkVzinwdGQptcP3WG3Zv7TiTE+0PeU0++XEE+INPeHcaMnC1nFLhli5ZISo5oCuhE60iYhjdmEuJbfSo7SkZjPlSu/fWD8puVPrG4gAUx9Mpcldk/SGbEsWZx/FlXAzP5DDR3CR1HiaNtYeTZTk2E1XttxRh+EpT6uwlKuWdwk1ne+lO/YadDVoopTor2R0gTz8BRfqfQCUHDmTGdm7Vht+lSFFKjpViYbjIubZCgqTFc84bxa9xWFlhkpWiCVREHlrVscPtvJtEukmFD4TzpXLBxZbHk3LgaMVxQpSROXyrlv0u4wu94lYYmUW7Wb4qOv0FdB4uvI0vMdSK5a49e7bim8MzkCR9P3pjSR8rENZLxoH3CcyW1jloa3NgLH2rVbQ8hLavxiAf8AcNq22QMKzDVJI1+lanRlBSwOZDiRqcv7/rTTaqJtu0PIyeXMc/hShaHK4rWJg004UsLSppRjtUEfH+CqSZDXBe/CFyLlpbRVKiwPMjUg+e1MmLL7SzhUZkjKvz/61qufR9e5wc8doloBJB17syn4iflVh4mQq1Q8k5gUhKo5iND/ADrTmGVxPG6zHszULGEmL4wOdW3gxlgDwqoMPOTEiD1q28DVLI8qdh0K00C+JR7JdUVxkPeg1fHEg9kvyqieMRAWd6Dk7GcPYv4EYdinyzPdTSDgZ9tT7Z+6Kp6Fc/Ei+f6NbaezT8q2Jwq3SIyClt/jFKCYb1860f40V+FsfOvIWz604McEYewge6K3otGgJyiTST/i91YgIGvjWf8Aim4VsEiptlXBjRestNtPuQJbSSPOJFU96TGW2PVloPdUpZBE7gJ1+Mj5U1XnEN1cIcaSQMxBMeG1Vvx9ij10hpoOEqKoQkeYo+NPcCnFpFY3zALLJWpQStB1VpodvuTSxiYQ6ArLEiTHT/qnO8QhNuhEJyhkTI5idPypLvipBRmiEjl0NauNmfNULdwyWlTqIVBisnzDYojds9q2YGqdFdfOhb4OQgnUb/rRmqAs8BkgHbNXj7neM+6Dr5VqCtJ57149+I9TMVBB8hyH0qUZ1+lWtwC72baSN5qogTEc+X6VZHAt+nMEk60vqI3Ac00qmX7hd12rMFXKjbD51AkxSZhNwEhM7UyW9x3kyTFYjXJvwZsxZ5/1dRaBUY0Aqo7x29tU3OIdiq5uQowgHnO1Xe0WlJVn50q3eFNpxNaWx7NzU+BouNqPZGRORXHD+M8U8SXirJ5xvBkFtSkqidRyJqw2PRizfYMxdYlitz64laQ/7YZD3oUBO2h0rViXDy0N9raJHaEaaaj40qrv7yxbVbXheQ0p3tVJJkFwfig89KfShk/PBEMOaXEZlr//AADha8Qs0ovLtNsontUl2SrwBjSvce9AOGIft/6VcOsBasqkvOlU+M7z4Uh2vGvECby1ubfFrl5Vt3mkLezCSCNUnQ8+tF7vjziW9uWHbvEQhtpSSnK0n3ojUAa7mi/Vk9BXodda8l/9HW79CfD1ixh6WkgPoeSXXFQVLABJ+1Vr6RLXDrx3EcLw1KUpduh2i0J/Dky5Un4/et2OYrf8QutjFrxT9tbntGUo7veiM0DnBIk7a1rwmy9fv0u5PZoIAEaDyqzh9cbkwM/j54Y788r/AMNWB8IsYRh7bVs0lKY1gbmnptpqzw5tAjKBJnrW5VqOzbbSOfeNCMYe7LQSSN0jnWZkbkwEKSBONv523VfhMmuVMeuhe41f3CTIW+qPIGPyq/ePseGEYHdOhcOLSUNCd1Hb9fhXOE9daf0saTZmauVtIlWy1FohJ7yVAijDYClFaDIUApY/nyoLa5pVHQii9g53WyvQgdOVOsSJDPvjXQjnR3CXwHWM/uhWtBklCSmEjXSUmp9sEpdEyJ2I1FBkXRZnCV+nDsQWEjQKzDxG8/T51cL5SqzWkEdk4gLbP+01Qlq92tvaXaSC8FlpyesSlX5Vb+AYl6/hKQSEusBLSwenI/UfKj6eVcHnvksNtTQPsyU4gJPP86tvh9Uso8qqdhJF/p1POrS4dX7JAPStKHRiy7NfEZ9k5VF8XplC413q8OJD7NyOlUlxVqhfxqmTsvj/AELGBD28VYFqnuCelV5gq8twNedWDaOShNUQtqOGHbxRzmtCVkHepl4z3vGo4Zrx9n2akb2nCOdSg9A03qElBHlW9IgTzNdZVo9KiCrSSpQM0gcQu+tY02kGEIWefT9accQfLLa1gnSdjSJdKi9SqIAClKH2H2pjE+RXKuKFvEzLFyltJC8y0ATtCjpSddEEqbInIdPEdKa75ZQ266oyoOZog6mZP3FKd0kNuux3skgc5E6Vp4jLydg9TgyTJhQg6ztQ65TkUdNRU15JQpQJ0JzD5QajrR2o194aUz2ABoGUkcx9qxWYjTlUhKMxCY7wOn6VkbQlomYI2FdRFkJSZMDnRvh/Ev6ffAKMJJgGhSR2YzKkHkPz8q9DYjRQ8jpVZJSVMtGW12joHBMUS42ghfdNN1pdByDz2PSufOGOJ12Shb3S4TPcWfsatbCcZSvKELBHnWNlxODo3sOVTjaH9m5WpYSlU/GpibdShnJBIpas7pOYLSrfx0o/Y3yFqSCeelLjd2MNswlxqCM0jWh+IcO296hSHWkOJ5TyonaLRmTk+9GvVkZApImd/Groi2uUUziPA71o72uHPlqDISsZh86GuYfiTfdfvEpkycrZOtXs7gls/bAJgADaZoV/hm1cMrbn4U0smWK7DLWZUqTKwsOH3LpYNw+8+Jkp2B+Aqx8D4dQ2lJKYAG0UdssNtbEpCUpT5iiSnGrZhahHXeqSk3+mK5Zzyu5OxZxLJZpKjCQB1qvMTxHOpxa1SgExRrjDHQVKbQrVR1jpXPvpA437UO4XhTkg924dSeX9o/M1McbyOkJTyLGrYv8ApB4p/r+KBi1WVWVsSEnktfNXlyFJxFe19pvWtGKgqRjyk5u2bbeUkGKK2hhI+EihluMysvM7edE7UAqKTz0061YhE1ASEgjSCY8OlEGlEtCR3m4InpQxpWqgobnaiCXMjLLiTOU5VA8xQmiyGjC7pLbSVlUIQtJX3cwKQZ/ngasXClrw3Jd2plpz2TqIOVQO3/f71VWCulpyEEHLEpV+JMz89KsrA3iyyq3Uibe4SSwqJBTPukdQa6PDE9RFSXIzsuIffQ8woELMgVZvDxllA0BqqsPWWXEBxAOYAkERPiPGrNwB/K2mNAN9Nq0sU9yPN5tO4Pjoz4mADSyZmqU4okpcHnV3Y+iWVGJBE+dUvxSR2boQmT/dzrsvYPGvIScK7j4J5narAsVShNV7h6Si5GYwonbmKf8ADzKE+VVXQtqlUh0uwMx8a0JAO9SboSTUdJgeNeNR9js9yzECRWwpI2jruK1lUR51quXsiY0zHpzoiRRsFYu7mCmpnTMrwHIUluvAou3FEkKPZpI5dTTJijxDbqkKhUak8qTnpdU02gw0CSNdzO/yApmCpCeSVsWsdcKFtsifdzHwPT7UBv3ACSROZIKSD4a0QxV8POrWlWYCQCeUGhDiu1YzKMhCj5wdZrTxqkZs3yabppPslNmUdFabjUfWoikiEkq12OtS3UmFpURKiYPKRzFR7hACULTA6jz1phACOtpAKVlQSmQFDeOhqbcMJS1KUlSimU5tyOdQnFdmoHQoUIIPMV6blaEoaJJy6oV1H80NWTKtNvgHqVKpWcwPOtnYlCZOo6g1oc0UY0E6Vk24QRlPmKoWN6W497vI5p50YwriF/CVJSpRdZnQnceFC2LssqBUlK0c0nUftUx22tblpS7J2HInsl8/KulCM1TLRnKDtFm4PxixcITLo1G086ZU40UpDjK5O+9c8ILlq5LSi2rpNHsO4suLYpQ+StPzrOnpa5iaePVp8SOksF4qQ+lKVK9oBB70RTth3E7Sk9m4oxyVO1ct2fEbbqgpt0tK6g00WHE74QEl0LHIhUGlZYpIcjnizo3+uNpTCXgUVHf4gbQe73j51S9txHcx3dRz7+9b3MddUjMXEoV/ykkVCjL2Q8sfRaisbzkkOAeM0ExzjBFnbLCnQBBkk1Xr2NvEHI4sx00pUx24ffbPaqUqRzNSoc8lJZXXCA/HXHlzeFxnDXCgOEpW8NCR0T0HjVaq2opjaSlxCepmhSia1cUUo8GPlk5S5PGxMz0r3s4Vl67V6yfaJHKpamQSmYBI0owEjNpKVa8qnMH2ubmkg/WtWUykkaHcdCK2tpyuTqAdK4knAj1meRGtTjPZLE7rkR0qC04lV43mEBcfaKIpAS0JOnON6o0SeWb6m1IVmOdBgweXh/OtWdw5iAWlvvqKU6wDqD1+tVo02khJBhUwk8j4edMGB34t3ipTYI2Wkk+VV6KyjuVF1Yclp+17M6KBzJkTlPTyp3wJbbYSUrKNcqp5HpVWYFiYSltHadskapnfLzHmOlO9te9mqZCm3BBV9j8KPDIoszcun3cDfjDss5VpA7uihsaprikK9rlATvrVt294tbfq7i0upygJM7jzNLmO8N22JAqSlSF6noflTMnvXBlrC8c+Sh7FKk3QzCCSTT/hnuJ1jSodzwHd2V12oGdBVICBJA6UWsrNbUBSSEp3moVrgR1cbdjlcJ1NRomKnXYqA44G0EkTFePi7PrklRi4oITJ35VAdWXO0IMDWTWagt0bHOowAa13YQ3bjPsrQR+L+fnTCQtKVizikupCEAob8/eJ3J+X1pXxJ31WxddTCTBbQQd1nTTyphxBww64oDMe6gT9v1pTxpJfet2kGUNCQQNPE/vTUIik5UKNx3ULT00APTnQ8AEhJIGckkT8R9qIXYhBKFBRUrufOoJbSkqX7w0hP5+WlaEEISZrXmCEBWh5k8yOXyrC4AUy4vLABIUAdhHSvlHtLdRQYUnvJj4/z41mtSVNmdO2RIPQgCjUCbILtvmaUG1BwiIjQ/I1oJLqQ2uEqGqSRsakLGa0QsgBR0NQi6qJPXY/zpVSUaFrKSoKSAdiCnY1hvvUtwJfSEnR0DQj8Q6edRMpSqD9q4k2pTPMT46VkpC2zI08RXjQzbajpU63ypUQ5qjmDXHEBXeHeUJ8t6xKEzKZ+Jo+vBU3SQqxIOkltZ3+NQThzqFBtTbjbhOoUO78/wDuuOIrLi2YUe6nlHOmbDVreCcqjJ2jnQ1mzWw6Ct1KEAa5VAkz9BU5q+ZswRhoC1q1VOooE42GhKhkaDqEjMuQdBrv40YtELcggSgbEc6V8Ku3MVvEoeWEZhHeOhHh1qxrC3bSlKVCADExp+1I5FtHoeRDZZ8IHKh+LMBLSpEkiBTY8yyyDkTIOtK+My4e6NSIoMeWEkVVxAiLgeFBimQI50x8SNRdJAGyaCtsFaVAbjX4Vq434oysi8mRWk9/TlRR1qWkmNQZrWzbK0WsZUDYH71sfWQygE6ro1giMkzIO01PDJ7IOAE8h4VAWcipjuqFTbJ8BRS5q0sa+FdZYyW2HEpPePYkT4p5UQDua0UoDmT5T/BWsNQsCe8JieYNbwkNpCU6oIOXnUMg0MuFGixmG3gU0atn0OJCj3H0gAK3Hkf1oIGw0taSQkqEgHY+NSmnkNlKklQEDMBqJ0qCR6wq9UUJA5GdNCDzg1YOGYk4EAJcS60dwrcHyqn7O97AhaRKN1ZToPHyp7wLF0upCCUuJ3E6kVWgckWNZ3FynvILWQ6EAmmCxuTcoCH0qcKNwd0/pNI9pelIASCJGw2orbXymihxJAyxqDrHjXKTiLyipFg29u1dJUXbcJI5pUB9CRWFzww1cGVWbiQY3j56HSheE40HnWg4EqVABA0kzpVg4esuWy87gIgq8zPP5U3DJaMjPiRVl4dDpQe6MtESQJo1doUZgH5UNctlOIWCkgda8lDs+kT6B7cqClBWuaATymoN46VuhMShsGJ5kfqamPNuIbcbCSNZPz/Kht44lFqHHEwlMwnczpWhDHfJmTypcC9iZSExqUjVUCAddvtS5iR7MOJkBx0RP9qRRrEC657RcCToCdB/IpaxN9KVOqWS6tQ7qiIA607GFCUsli1dpJVLKu6NECaGrcBbWW9QghKfl/3U69fylSWdSfeIG48KEEqRLbYUWoiY3PX6UygPZrauAkt9ponYkc/Ot7khokRprIGnjUZ1vNM8h3kj71thVxbrTqCBCQOvL5ifpVrIo1uqT2RCAQiEk+Hj9ahFMEFQOVStfIVOdzOsdwAhxsD4pjT5Co7YzobzAAhRB8RAqpYjOpKI1kgxI8h+tY5u1GuqgNxRAsZ1thRyBUAmJg7flUj+iuK76UBQmNDBmuOBKElJEg+aanNnujKJ8xW9VgUQQhaAd8yef6192ZBySAs6pJ0k9D0q1EWSWrtDZAWFNc5B3qe92V00oNKDkiSBoRPhQRalklLrcEbidRUUrW0QUL0B0gQR+lR0d2bnLQuuELKla9dqNYZhLZDecLUgnVJ0BPjQxu4U+c6u8sbnn+9MGA3SVKCM47QHRCtjS+S64D42r5DSMLauLcNOolKdUlIgpI5imDALtaVmzu31Zm09xzktPUz0rXatkISUpTr0Ok1LFkpXtmUZXWwXGztBHL4iaQbtUx5ccoOrYQlsqQvNI66Ut3yUgKWoSOUUxMWwu7Zt5vKG3EhSTzHhUTEbENtGDmMT50JKmWbsqHGWjcXbiynQGB5UPYZbt3UuOgqE7eFMd8yF3DwSN1GhD9rk31IrQhLgSlG2S8RwB1BS82M7C05kKIgGN/Olu8ZWFlRB02FXHwJat8UYU5YPKCbuyVIke8Dtp5aUG4g4KVbvrQtHZqSDrEAidx86bSvlCjkk6ZWBHaNpHMViklsg8j9KPYhgDzCe0b1CdTpvQZ9spAkEaajp41DTRNpk+yf7aG1k9okygzqf3oullD6UZ55lKk+8k9QOfiKUwowIMKB0I50xYTiqXFJQ/AUTE8p/LzrkcSkWKlphxSXUz3VoO3iB+VRXLFxDhLASVTplMBXh4HzimJpgqBcIGU/iKZnwNZlFlcf6zfqqlaBxOqSRy8Ku4/0U3UAbR8NujNKFJ1KSPnp96O4ZehlyWiOzP9ipAP3r53CFZUqITcoB7i8wKk/GoCLezbuArtFW7g1ylQIn4cqo00WTTLBsMTfXHZOIUY08fjTPh145elKHU9koJkiN9fCRVWWl85blKlKStM+8ISQPtTphWO9kQlXZqSog5pEg+XKhFJx44HyyYVbw+2oodzCJkmnTCuIHD7GSXSmIEGPGaSsLxF66zthQCAN571NdnbeqMrdJCTMmN1Hr8qJGVdGTmj/6Db2ESD3ajO4IAEoCe8s7VZScJC1wU91P1NabvD+xuGFJbzwFSBy2g/D86VWLEhx6zPIqzE8AS8ypLbZUsGQRpoNSSfnVacRYcuwWCFKUj3lJAyyNp8POujHMMPZLQ2lCAmUOAqzbwQI6GRNVxxHY5bu/S5BtzZoQ2uJPdJUSPoIHKKInBdERzZJPyKTvnPWWoQlWbLIAOonkIFLt5hj7QuFlMIA1KjJ+m1Wa9wqpIbusGKlQQXW5gtr336eNSG8Betg3c3bLbSZMOKlSNN0q0MEzzqHNRG1I59vLZtlSg6VsZjCV/h+Maih79upIKXYUR7qioKB/nWrL4+Th1k6w3bBNwpaJeyJACR/xgCZ/mtVxd9gxlSkrct16pGv8Hw1FFi7VhE7RAdbUqEyUgawowR5HnWQJZWMikz0OhJn5cqyClNkhBU4yr+5Qj41i8lD20tOAaJzb+VEJCDLaM8jRK+8Eq0IPgfD9alLww5SSAdM0QCPMEbUEtcRUyoNuKBRzStOxHPwpitr9ENgKCCr3SpX2VtHhVokN0Q3WCFKUw0hREkpAkweUb/epFq/2iu0bSFQYWgbkdY/Sp9w42hHadmFK5qSY/aaGl9tLodaEqH4090k/7h161NUyLtE9ZQUlSgp2337RA7yD0UnyNRLy0Q+yAClX9iwNDWhu+yqS42SQowpB0M9J61KYcbuJ7MlsmYynQ+Y5GrXYOhffQ413XZ05L/X7VEJMz8INMV6wFkJdSoZToOnx6UHftgytTakhKiAcskFQOxBqrReLMbB4M3CHEgSkzChIH7UYdsnHwbuxbU2oAqKU8oOsUFSghaVBRTGoMU4cK4iyh5DF23kCiEqjkZ96Okb0Jov0HeELtOLWl00px04gwguIRHddA3HgefjVlr4LvrHCk37T/bFKUOOW+TvgKMAgyZ1MRVQYhYXPCOLt32Hgpt3XCAU65TOqfiPpFdFcK4qcUwZOMMXQ7Nu1C3EpEQUSYAnWIHzpd44t9ESzzgk0+AZwt6PMVxOxSG37VkoccSptxRCkQoxOnWaJXnol4gcbWGPVXglUFSXojToRPOrH4PwxxFkh24RmccQFLOWO8o5j96MvsOKsXCwopK1EFQJgCYq38ePdAHrsifBybxN6KeI8Cecdu7IONL7yVsOZ5T1jptWu29DuO3KfWMXbGH2mhzEhRJOwAHOumcYsnW7sNOlTlq2kNmROVKgoEnrymhreGs3tqm3t7lTi7TKVIJ7pWkaHxmKJHErKvVzoo2y4UwvhD1R63VcLubh8svuqUUp300HKY+dNmL8IMXjBdYb7IgKUkgq1jvTO2xPy1po4k4fZxIvsKGRh9AKFAzlWPt+1TOG0Ju8JFniagHmTDqgZkoO8eKT9DvT2KCXDFZ5G1uspl7hB9Vs64oGEKKXNIA8/5pVY8V8Nqw13OEKSg7abeHiK7At8BGd8AJcKkgAmSFRpCh9ZpC414HYxCzuU4e2hMalk/h8qtPGTiz88nIa4J00rJDqgsTrFTscslWd+61GRSSZT18qG5lJIKTPgaTo0rG/CsYCkIQ7K0HQ9SP1HT5UYdQnsitqFMrGpAmfHz+9Ilo8mFJggSDAPPwplw/EOz9mCSP7SdFfv08asmQ1YRtLtdu6oIcIUmJQNQR1HUfzWiDq7C8b/AM1bDMdUuNSPjFAbpedJcYOqeWxCTt5iR5j4VhaYgmEpUo6plJVrI3g+Rrm0RQdYDdovOylLjeX3841HlyrYixSpwuWr6E6ypKkAz/OutDmrpt05VDKozJT13kVMZfQwlPtDI1KioH86E0WLG4Wxj1NKRdqbWRoHQozHQjmKsa1uXMUQWLQqDLmuZSTHlpv5Vz6xiYeWSwpIcSZ7wICvrVs+jrioNPNWl4f9U+zXJEK6GdjVapiWph4uSXJ1qyhKkgE7bxzPOtmRvNmIEap23rFtlQQoqO35Vt9WlsJJPmDzrMUcjOuIHvbJMqWjvoIKHBsYJ5Hw8fGkjinBjdWN08krVcN5spKAJTBlOngP/wCR4CrOSwCYI2ERS9jNh2VpeLbzpb9Xd+BiPyrtmTsspRRUfCtg3iPDBbXbtQ8lwtkq1UsJIIEjTUTE8+VbuKsdwnhzhxrGL95tu7cZRFtnEvEomI0Os7ilW79IOE8FYUiwtCp68cQXAhnLLQWZE9DB23n5VzlxHxFcY5ihuV5nRlCEJUSoJgRAn70dYJTlbfAePIcTw/i/Gt66/bsFDDjoUtyO4CT7s7HSNKacZ9BmNW3D5uEWKj2SS44kCcqYlJIOsmj/AKE/Sg3aXLOGcR27L1khpQSptoBbSU65gkQFgalX4gJImK7XGC2+J2Au7RNpeM3zYWie+2ptae6TB1GUjbf41swxxceBaeacZ1R+U9iW7W9Cbgn1eMpOXQDbXTcGPkaL8Q8Iqs7Jq9t4ggFQEnnEg9NRVy/+SXoQ/wABYh/XMKUp/CrxakvIGhae0M+IIj46Um8I3qOLOE7nCysJxS0aPZnISHWwApIPyI18DVNvpjG+0pIp+4ZzAqA7yefOKjs3TtunMhfcmFJIkfEUx8R2KbO5KmiFIdbQ4nzO4pfcbCHVJHeCxI8dJofQWwvbYqSgEFaNIygyD4Vt7VFyFKQlLmYzIEKB/OgDClNEhOytU+dTEmF7bgx967s6iTcZgpLrKyhydTyV5isQ+se1QVIVPfB1APXyrJgesJU2o9+BB6nl9jWpmA6ts+6e6a44NlwutI7IpUtKQVI5lPPzj6VExZkKbYcAIOWJOuxMfCsbX2L+VydIgg9alXSs1ktJlSiApBmNAf3q92ijVPgA5iSTGUZtR0NGbBKzkcSISlXeA68j+XxoQVFKg4EzlUNB+VNvClui9cVavrHYEhsEGCAo/Xb6UJl26Vll21m1xRwJcNOQbltCFoMmQARrz1gkfCiv/j+leI4jimC38hhiHSgalRSqCmenukjn5UD9HaOyurzDL1xS7dhS21nMMpMyifiD4U2+iNSMP9J+Ipts2VxhTmZMZQlRTNSkrQnN1GSOjrJjK9cBCTBykgHcR+1S22Vrw0hsFIClEyNoVUq2Slu/yIghxJSTrqoag/eiVownNcW6gZPtE/Y/UfWmKM6wSuwSu6S5sl1JTJ8dqiv4CsPtPLQCkkhaR+KdvKmpqzDltkUDnb7vjHI/zpUo24uGUlQCVgEHTmN6ukcV8/w0kqcbdRnt1mQrp5fKgCMJc4extv1gqS1cwlSlRlVOkH4GKtVLWa3cYUgBTe0UvcVYf/UMHcIGZ9mSifAT9vtUrgsv6BibYW98y4+0ErSoJLgnKvkdfgD/AOw1qPxXwizdA3NuMryTqpsQoj7E/rR/h19WNYSxnIDigEkToCRBMeaQfiKZnsMK7JLzYXkIyuIze7THDVgKaZ+d3pr4OXg+Ni7bIeauwVpUBEqG4+WtVIpmQSgj/gdCDXf/AKX/AEeM8QYLc+qISLhJzJ7vuqGs/SuIuIOHrnCbx9h1ksvMqIcRG37UlkjtlZr4Mn2Qr2haalBzAQdqIB4t5VJ93YeR/eojoypBMEnxrJpfadwCDyH5UFjSYaF4XwVHRwfU861wpxaeyKAJkjaoLaiAojaZNTGocRIOugI/OhliSlRacQRrAjTl1rBQcZeKmytWVUkTUq3WGwAUJURymtrzIyh9R7OBqJmrJWVZpZuS66hRXLnNQECafeHbz1YJauwVMPHItU6tqHOarq0Ss3JdOYjbb5CrAwF9ns1s3JzNup0kbKAkT57V22+Cs3wfoiGlHQDU71vSwo8qNt4aE8q3jD0jpQrM7axdVbKV+VUP/wCRHpKXwrhY4fw1QOJ4g2c7gEdi1OpA6nUA8tfCuknGAtzsmYJAlROyR+dcZ+knh1fE3p3urHEUKU0tLXZdqQgLT2YUE9ADqPP40RQbotBLdb9FE4Zg2I8SXI9TaW4ZO2uk6+f/AFRzHfR0cKZac7N1tRSky6gpgmPCCDI5/auufRX6NcJt7Nam7ZKLt8pSpKFaASUqT80yfE9asHGPRi3dWztukKuENJABKQojeDliJEwQNxNORxJLllpaiTfC4OAWOH1hhnEsIUtGIMFKlIbBCtDotPQgxP711/6EOMDbYFhqMRUpOA3aFJHchFg/MKQAdQhSiTGySTEDSqnx3gFfCPEFuhky1dvlDI90NukSWyOitI06jlq7+j5h/ALZ1tTJusLvn19olQEMPFWuh5KTtp1q8VTKZJ7lwXrxtwXZcccP4hhGMtpyXLCkqbVILc7KH+7Y+BEV+a7tleeiH0kPW94MyLV5bDpTs60oQVCOWU5hX6b8G4mm5slYdcui5ubNPcUoQpxg+6VA/iG3wHWuVf8AzH9FaLZrD+LsMYSEElu6yCD3iSDPxNUmvZfC10+mckcTrQ9cMhtGXKhtMKEaQSD8jS9eoKEtxqUjp9qI3Dynbl5LsrUFJSBOumgHw/KsbkIVbtiCchOYjnP8NA7Hegd2PbMZwIIM7c6+Qc3ZEzABk+AmpdiCUuNkbGZHStK2zboKFaKPdSOYAqPRN80Y24JfbyiCT8v5Jrc60VOl1HPITAO53+0/Gs0M5G0ZoKjKtPwjl86krbcat0lxCkJUYGYQfDeuXJ3JoBJfKlArSqAY0Bj+GpKnA6ytpKdVTE8+n2msSkHUmBJUkRsAKHKeUt5tI0ShQJ6+VT0SzEuxcHtTCNJ5TFMvB95bsPOpxB2LZTZChz16Rr5fvSa+olxXMqPemt9iczwA7yehMTQ2TVqi0LDiA3mOXT2GhIW/boSXBCEpKSO8BtqAPmadfRviNyvily6RndWWwgmRHeI0nWCcuh3qlre5KXEttuKUVpIKEjLBB2I5Cum//HDhIu3a715kOoCipNypslBWnQBI8JJnnp410U3JActQg2dD8NWV01hbIxNc36EgqWQdTuCJ11+HOmtoBSmrpsd0J74G++oI/m1aU2wtn0P51PKcPZuqOqtdvAQeXjRC1tOzuHG3EjI9qBEajcafP5030Y/bs2whq5SSJS4InlPL86zt0lt5SO8AoTr1H7H6VmxagtOWxTlKTmQobgcvlUgy4yh1IJdQe8I51Nl0iI60lu5CssZxlJ5/zaoNxaBLi21CQsmec9Pzo68wl5iUncSDO1R7prMht5IBMQTHOpJKnwO9PDuN3li8VIaJPZknc7g/PLVlYHjYuW3Ut261srhxJy7TrB+s+RpB46w8M37F2gQlScqyPDUH7/Ki3CDzbzjKnSntHDkVJKlKChOsHTXMKNCqpg8lqmgpijTFw4SlKm1c0LTBj4+YqgPSt6Jmcam8w9sIuUjulKfeT/b477GulcXsG3UAp1SmSAqdRHQ/HbqKTcQwt5aVIQpZ31AKo5+fz/uFWcVJUDjkljlaPzr4s4OvcGfV6yypCZ3jQ+IPMUoqZKAsuJII0BG1dxcf8FOY1bXQfZYUsJzaKyyeZiPAnyArlLizh93CLlxL7UBOyhuUnY+NJzxuLNnFmWVf6JKLgsoUFd7NofLrW1q4CXE5SChQ3HKpKrFp1MoORR1A5fKo72EvtkKZ70DSgOIfcifb4q3GVxIV0KxqKJsXLDyYLZdMz3DAHxpSD7jKyl1BChvIqe1ieiEhJInUHauVIh2xhT7ZwKTAQjQpT+vOpzONMlXq6LpLTiRoop7s9MwpWfvnHk5T2iArQkHQ+HhUe0WQ+01lShAPmNefU1Ld9Fao/9k=" alt="Ankita Pam">
+        <div>
+          <div class="intro-hey">Heyy 👋 &nbsp;·&nbsp; Bonjour &nbsp;·&nbsp; Hallo &nbsp;·&nbsp; नमस्ते</div>
+          <div class="intro-name">I'm Ankita Pam</div>
+        </div>
+      </div>
+      <div class="intro-bio">Supply chain leader &amp; AI systems builder. $72M+ delivered impact across food, freight, and hardware — I build the models, ship the systems, and grow the teams that run them.</div>
+      <span class="card-cta">Get to know me →</span>
+    </div>
+    <div class="modal-source" id="m-bio">
+      <div class="k">ABOUT</div>
+      <div class="t">A few things worth knowing about how I operate.</div>
+      <div class="b">
+        <p>I'm a supply chain leader actively building autonomous AI systems for supply chain decision-making. Three years ago, agentic AI wasn't part of anyone's supply chain toolkit — I taught myself in anyway, the same way I've taught myself into every room I've ever walked into.</p>
+        <p>I've been a consultant, so I know what it means to solution a problem from 5,000 feet and pitch it to a room of skeptical stakeholders with one shot to land it.</p>
+        <p>I've been to business school, so I understand what keeps a C-suite up at night, and how the work at my level rolls up to what the company actually needs — and vice versa.</p>
+        <p>I've been a deep analyst — someone who knows the thousand ways data can break and be incomplete, and exactly where it can look impeccably clean while carrying the messiest signal. Almost like a detective. Give me the data and the business requirement, and I'll hand you back the math.</p>
+        <p>I've worked warehouse floors and production lines, so I know how the ground actually operates — where the real gaps are, and how obtuse corporate plans can be to on-the-floor realities.</p>
+        <p>That range means I can walk into any room — executive briefing, analyst deep-dive, floor walkthrough — and change not just my language, but what I choose to say entirely. Talking to the right person about the right thing is a skill most people underestimate, until they've watched a good solution die in a bad meeting.</p>
+        <p>Maybe that's why I never grew out of linguistics. Ask me to say hello and I'll answer in four languages before I catch myself — the same instinct that makes me change the whole conversation depending on who's in the room.</p>
+      </div>
+      <div class="g">
+        <span>Builder, not just recommender</span>
+        <span>Data detective</span>
+        <span>Autonomous AI systems</span>
+      </div>
+    </div>
+
+    <!-- ══ ON ADAPTABILITY (click → modal) ══ -->
+    <div class="card bg-rose span-2 modal-trigger hero-card" data-tab="about" data-modal="m-adapt">
+      <div class="proj-kicker"><span class="proj-orb">🧭</span>ON ADAPTABILITY · THE THROUGH-LINE</div>
+      <div class="proj-title">Food, freight, electronics, SaaS — how does that actually connect?</div>
+      <div class="proj-hook">Not a personality trait. A discipline. Here's the case for why the range is the point, not the risk.</div>
+      <div class="proj-tags"><span class="ptag">Adaptability</span><span class="ptag">Cross-Industry Range</span><span class="ptag">Systems Thinking</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-adapt">
+      <div class="k">On Adaptability</div>
+      <div class="t">Food, freight, electronics, SaaS — how does that actually connect?</div>
+      <div class="b">
+        <h5>The Question I Always Get</h5>
+        <p>Global supply chain consulting, warehouse floors, C-suite priorities, shipped production-grade code — food, freight, electronics, SaaS. The question I get is always some version of: how does that all connect?</p>
+        <p>It connects through adaptability — not as a personality trait, but as a discipline. The thinking has to change. The industry changes, the company changes, the problems change, and so does the way you need to approach them. Most people instead carry their last environment with them like luggage — they come from semiconductors or retail or consulting and spend their energy trying to reshape the new place into the familiar one, nudging the culture, the process, the tools, back toward what they already know how to do.</p>
+        <p>I don't do that. I show up, I read the room — the org, the data, the floor, the financials — and I build from what's actually there. The supply chain is different everywhere. That's the point. My job is to walk into that difference and deliver anyway. I always have.</p>
+        <h5>Why Breadth Is Undervalued, Not Overvalued</h5>
+        <p>Recruiting has quietly become its own supply chain problem. ATS systems comb keyword by keyword, looking for something close to a carbon copy of the job description before a resume is ever seen by a person. Every open role feels this, but it shows up hardest in supply chain, where the real skill isn't fluency in any one function — it's understanding the inter-dependencies between commodity markets, cost, quality, planning, and execution, all at once. That's not something you gain overnight, and it's not something you get by keeping one person in one seat for twenty years either.</p>
+        <p>It's also not only about technical and domain knowledge. Different roles ask for different instincts — speed and on-the-feet decision-making in a crisis, patience and an eye for detail somewhere else, a research mindset and first-principles thinking elsewhere still. I've picked up each of these along the way, and I can tell you exactly where, how, and when I gained them — which is a different kind of claim than listing them because they raise an ATS match score.</p>
+        <h5>Supply Chain Is The Business</h5>
+        <p>I've believed this for a while, and experience has only made me more certain: supply chain is the business. Not a function of it — the thing itself. Every company that turns a profit, whether or not it touches physical goods, is running a supply chain. Operations in tech is a supply chain. A software release cycle is a supply chain. Capital allocation is a supply chain.</p>
+        <p>I know this isn't just a professional position, because it's how I actually live. I plan the inventory in my house. I time purchases around sales and warehouse clearances. I optimize fuel runs. I milk-run my errands without thinking about it. Bringing that to my work doesn't feel like effort — it feels like the most natural extension of how I already think.</p>
+        <h5>The Track Record</h5>
+        <p>I've consistently been in the top rating bracket in every role I've been reviewed in. Top five in my undergraduate class. Multiple offers coming out of my master's — including a couple before I'd even finished — in one of the toughest hiring markets in recent memory, as an immigrant in the US.</p>
+        <p>The through-line is the point: the work ethic, the range, the way I think about problems — it holds up across industries, across environments, across whatever gets thrown at it. Food, freight, electronics, SaaS. The supply chain is different everywhere. The thinking is the same.</p>
+      </div>
+      <div class="g"><span>Adaptability as Discipline</span><span>Cross-Industry Range</span><span>Systems Thinking</span><span>Track Record</span></div>
+    </div>
+
+    <!-- ══ END-TO-END SUPPLY CHAIN IMPACT ══ -->
+    <div class="section-title-center" data-tab="about">End-to-End Supply Chain Impact</div>
+
+    <div class="e2e-grid" data-tab="about">
+      <div class="card bg-dark span-2">
+        <div class="pillar-kicker pk-cream"><svg class="kicker-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> ENABLE — TECHNOLOGY</div>
+        <div class="tech-stack">193 commits · Python · Pyomo · HiGHS</div>
+        <div class="stat-label">I build optimization models and the systems around them from scratch — MILP formulations, ERP integrations (NetSuite, Salesforce, Databricks).</div>
+        <div class="heatmap"><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h0"></span><span class="h1"></span><span class="h1"></span><span class="h0"></span><span class="h0"></span><span class="h1"></span><span class="h0"></span><span class="h1"></span><span class="h0"></span><span class="h1"></span><span class="h0"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h2"></span><span class="h1"></span><span class="h1"></span><span class="h2"></span><span class="h1"></span><span class="h1"></span><span class="h2"></span><span class="h2"></span><span class="h1"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h3"></span><span class="h1"></span><span class="h2"></span><span class="h3"></span><span class="h1"></span><span class="h2"></span><span class="h1"></span><span class="h3"></span><span class="h3"></span><span class="h2"></span><span class="h4"></span><span class="h2"></span><span class="h3"></span><span class="h3"></span><span class="h3"></span><span class="h2"></span><span class="h4"></span><span class="h4"></span><span class="h3"></span><span class="h3"></span><span class="h1"></span><span class="h3"></span><span class="h3"></span><span class="h4"></span><span class="h3"></span><span class="h2"></span><span class="h2"></span><span class="h3"></span><span class="h1"></span><span class="h2"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h3"></span><span class="h1"></span><span class="h1"></span><span class="h2"></span><span class="h3"></span><span class="h1"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h2"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h2"></span><span class="h2"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h0"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h0"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span><span class="h1"></span></div>
+        <div class="heatmap-caption">Active commit history — code shipped, not just recommended</div>
+      </div>
+      <div class="card bg-rose span-2 leadership-card">
+        <div class="pillar-kicker pk-rose"><span class="kicker-icon kicker-icon-emoji">🎤</span> ENABLE — LEADERSHIP</div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Member cross-functional teams led across 4 regions and 3 time zones — NAR, Europe, Canada, Mexico</div>
+        <div class="stat-sub">+ Led it all from Mumbai — literally half the world away from where the work happened</div>
+        <div class="leadership-traits">
+          <span>Curiosity</span>
+          <span>Accountability</span>
+          <span>Empathy</span>
+        </div>
+      </div>
+
+      <div class="card bg-teal span-1">
+        <div class="pillar-kicker pk-teal"><span class="kicker-icon kicker-icon-emoji">📋</span> PLAN</div>
+        <div class="stat-num">23%</div>
+        <div class="stat-label">Excess inventory cut by tightening demand-forecasting accuracy</div>
+      </div>
+      <div class="card bg-gold span-1">
+        <div class="pillar-kicker pk-gold"><span class="kicker-icon kicker-icon-emoji">🤝</span> SOURCE</div>
+        <div class="stat-num">$5M/yr</div>
+        <div class="stat-label">Procurement savings negotiated through a global commodity price spike</div>
+      </div>
+      <div class="card bg-bronze span-1">
+        <div class="pillar-kicker pk-bronze"><span class="kicker-icon kicker-icon-emoji">🏭</span> MAKE</div>
+        <div class="stat-num">$2M/yr</div>
+        <div class="stat-label">Capacity unlocked by redesigning allergen changeover sequencing</div>
+      </div>
+      <div class="card bg-blue span-1">
+        <div class="pillar-kicker pk-blue"><span class="kicker-icon kicker-icon-emoji">🚚</span> DELIVER</div>
+        <div class="stat-num">$25M/yr</div>
+        <div class="stat-label">Logistics savings, ~2,500 trucks repalletized</div>
+        <div class="stat-sub">+ $1M/yr from fulfillment-visibility work at Whirlpool</div>
+      </div>
+
+      <div class="card bg-indigo span-2">
+        <div class="pillar-kicker pk-indigo">👥 ENABLE — PEOPLE</div>
+        <div class="stat-num">2 → 10+</div>
+        <div class="stat-label">Size of the analytics team I grew, hired, and onboarded — 33% faster ramp-up</div>
+        <div class="stat-sub">+ 20% improvement in women's retention in supply chain roles through mentorship</div>
+      </div>
+      <div class="card bg-silver span-2">
+        <div class="pillar-kicker pk-silver">🛡️ ENABLE — GOVERNANCE</div>
+        <div class="stat-num">18</div>
+        <div class="stat-label">Cross-functional architectural decisions resolved building an ISO 9001:2015-compliant change-management system</div>
+      </div>
+    </div>
+
+    <!-- ══ WORK ══ -->
+    <div class="row-label" id="work-section" data-tab="work">Work — Deep Dives<div class="line"></div></div>
+
+    <div class="card bg-dark span-2 modal-trigger" data-tab="work" data-modal="m-milp">
+      <div class="proj-kicker"><span class="proj-orb"><img src="https://logo.clearbit.com/samsara.com" onerror="this.src='https://www.google.com/s2/favicons?domain=samsara.com&sz=64'"></span>SUPPLY CHAIN OPTIMIZATION ENGINEER · SAMSARA</div>
+      <div class="proj-title">A total-delivered-cost optimizer, running on live ERP data</div>
+      <div class="proj-hook">Production MILP model (Python/Pyomo/HiGHS) deciding purchasing, freight, and inventory for 100+ SKUs — double-digit millions in identified annual savings.</div>
+      <div class="proj-tags"><span class="ptag">Pyomo · HiGHS</span><span class="ptag">Databricks · NetSuite · Salesforce</span><span class="ptag">Dash</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-milp">
+      <div class="k">Samsara · Supply Chain Optimization Engineer</div>
+      <div class="t">A total-delivered-cost optimizer, running on live ERP data</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>Sourcing, freight-mode, and inventory targets were set in separate spreadsheets by separate people, each optimizing their own slice — with no single view of total delivered cost once tariff, freight, and holding costs were added back in.</p>
+        <h5>Approach</h5>
+        <p>Built a mixed-integer linear program minimizing total delivered cost as one model, wired directly to live Databricks, NetSuite, Salesforce, and E2Open data, with container-level freight logic layered on classical inventory theory (EOQ, safety stock, MOQ). Shipped a Dash front end so planners could interrogate the recommendation, not just trust it.</p>
+        <h5>Result</h5>
+        <p>Running in production across 100+ SKUs, surfacing double-digit millions in identified annual savings and replacing a fragmented workflow with one source of truth.</p>
+        <h5>What it taught me</h5>
+        <p>The math was never the hard part — earning enough trust that a planner would let the model make the call was. Showing why, not just what, mattered as much as the solver.</p>
+      </div>
+      <div class="g"><span>Python · Pyomo · HiGHS</span><span>Databricks · NetSuite · Salesforce · E2Open</span><span>Dash</span><span>100+ SKUs · Live Data</span></div>
+    </div>
+
+    <div class="card bg-bronze span-2 modal-trigger" data-tab="work" data-modal="m-plm">
+      <div class="proj-kicker"><span class="proj-orb"><img src="https://logo.clearbit.com/samsara.com" onerror="this.src='https://www.google.com/s2/favicons?domain=samsara.com&sz=64'"></span>PLM CONSULTANT · SAMSARA</div>
+      <div class="proj-title">Architecting a hardware change-management system, end to end</div>
+      <div class="proj-hook">Full PRQ → ECR → ECO lifecycle in Propel for ISO 9001:2015 — including the call to repurpose an existing object instead of building new.</div>
+      <div class="proj-tags"><span class="ptag">Propel PLM</span><span class="ptag">ISO 9001:2015</span><span class="ptag">Flask · Databricks SQL</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-plm">
+      <div class="k">Samsara · PLM Consultant</div>
+      <div class="t">Architecting a hardware change-management system, end to end</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>Samsara needed a compliant, auditable process for how a hardware change request becomes an approved change order — spanning workflow statuses, approval gates, and conditional logic — with six functions needing a say and leadership needing one clear view of status.</p>
+        <h5>Approach</h5>
+        <p>Mapped the full PRQ → review board → VP approval → engineering scoping → qualification → sign-off → ECO lifecycle, then made the call to repurpose an existing, unused Propel object rather than build new — eliminating configuration debt before go-live. Delivered a 40+ field spec used directly as build instructions, resolved 18 open architectural decisions across six functions, and built a Flask + Databricks SQL dashboard personally to support it.</p>
+        <h5>Result</h5>
+        <p>Go-live delivered on schedule, fully ISO 9001:2015-aligned, zero added configuration debt, plus a training/rollout program built for zero gap between go-live and operational readiness. Caught a 9-day critical-path risk and proposed the fix before being asked.</p>
+        <h5>What it taught me</h5>
+        <p>The highest-leverage design decision is sometimes the one that adds nothing — repurposing what existed mattered more than any of the configuration work around it.</p>
+      </div>
+      <div class="g"><span>Propel (Salesforce PLM)</span><span>ISO 9001:2015</span><span>Flask · Databricks SQL</span><span>18 Decisions Resolved</span></div>
+    </div>
+
+    <div class="card bg-teal span-2 modal-trigger" data-tab="work" data-modal="m-gm">
+      <div class="proj-kicker"><span class="proj-orb"><img src="https://logo.clearbit.com/generalmills.com" onerror="this.src='https://www.google.com/s2/favicons?domain=generalmills.com&sz=64'"></span>SENIOR ANALYST · GENERAL MILLS</div>
+      <div class="proj-title">Demand forecasting, procurement &amp; logistics — four regions, one team</div>
+      <div class="proj-hook">$72M+ delivered impact, and a team grown from 2 people to 10+ along the way.</div>
+      <div class="proj-tags"><span class="ptag">Demand Forecasting</span><span class="ptag">Google Cloud · SQL · Tableau</span><span class="ptag">3× Award Winner</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-gm">
+      <div class="k">General Mills · Senior Supply Chain Analyst, Advanced Analytics</div>
+      <div class="t">Demand forecasting, procurement &amp; logistics — four regions, one team</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>A fast-scaling global CPG business had disconnected demand forecasts, a global cocoa price spike, and trucks shipping half-empty — three problems, three teams, no shared source of truth.</p>
+        <h5>Approach</h5>
+        <p>Built demand-forecasting models for the Baked Goods portfolio, ran procurement-optimization projects to hedge and renegotiate through the cocoa spike, redesigned pallet configurations across thousands of shipments, and consolidated data into org-level KPIs. Hired and led a new analytics team alongside the technical work.</p>
+        <h5>Result</h5>
+        <p>23% less excess inventory; $5M/yr in cost avoidance; $25M/yr in logistics savings across ~2,500 trucks; 250+ hours/month saved via a Google Cloud/SQL/Tableau integration; team grew 2 → 10+ with 33% better onboarding efficiency. Recognized three times company-wide.</p>
+        <h5>What it taught me</h5>
+        <p>The forecast, the contract, and the truck are the same problem wearing three hats — total delivered cost. Treating them as one system is where the savings actually lived.</p>
+      </div>
+      <div class="g"><span>$72M+ Delivered Impact</span><span>Demand Forecasting · ML</span><span>Google Cloud · SQL · Tableau</span><span>3× Company Award Winner</span></div>
+    </div>
+
+    <div class="card bg-gold span-2 modal-trigger" data-tab="work" data-modal="m-allergen">
+      <div class="proj-kicker"><span class="proj-orb">🧪</span>SENIOR ANALYST · GENERAL MILLS · ~2-YEAR PROJECT</div>
+      <div class="proj-title">The Allergen Changeover: A Multi-Line Traveling Salesman Problem</div>
+      <div class="proj-hook">Freed 20–30 days of manufacturing capacity a year by redesigning changeover sequencing across 4–6 plants — internalizing ~6M bars a year from a third-party vendor.</div>
+      <div class="proj-tags"><span class="ptag">Capacity Optimization</span><span class="ptag">Multi-Depot TSP</span><span class="ptag">Cross-Plant Data Collection</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-allergen">
+      <div class="k">General Mills · Senior Supply Chain Analyst · ~2-Year Project</div>
+      <div class="t">The Allergen Changeover: A Multi-Line Traveling Salesman Problem</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>General Mills was paying a third-party co-manufacturer to produce roughly 6M bars a year that could have been made on our own lines — except every changeover between allergen categories eats production time, and nobody had ever precisely mapped how much. Some category-to-category cleans took twenty minutes; others took a day, sometimes two. Multiply that uncertainty across four to six plants, each running different machines with different clean-time physics, and the honest answer to "how much spare capacity do we actually have" was: nobody really knew.</p>
+        <h5>The data problem</h5>
+        <p>The first six months weren't optimization — they were data archaeology. I needed a full matrix of every allergen category against every other allergen category, for every line, at every plant: something close to 40 by 40, one clean-time entry at a time. Most of that knowledge lived in people's heads, not in any system — plant managers, line leads, the workers who actually ran the cleans. Getting it out, validated, and signed off by every plant and every shift took the better part of half a year — and that part was harder than the math that came after it.</p>
+        <h5>The human variable</h5>
+        <p>That data collection surfaced a real modeling decision. I met one line worker who was simply better than the matrix said anyone should be — cutting clean times by 40–50% through sheer skill at multitasking and coordinating his team, in a way his coworkers trusted and responded to. It wasn't universal; it didn't show up on other shifts or other plants. I had to decide whether to bake an outlier like that into the model or treat it as noise, and I chose to optimize against the reliable, repeatable clean times rather than the exceptional ones — because a model that assumes everyone performs like your best person breaks the day that person calls in sick, or worse, leaves the company entirely. It's the kind of judgment call a purely automated system doesn't know it's making.</p>
+        <h5>The model</h5>
+        <p>Once the matrix existed, the real shape of the problem showed up: this wasn't one traveling salesman problem, it was four to six of them running simultaneously — one per plant/line — each sequencing its own loop through allergen categories to minimize changeover time. Except each "city" also had a dwell time: how long to run one allergen profile before the next clean, which is really a capacity decision. Run too long and you build inventory you don't have the shelf life or warehouse space for. Run too short and you're cleaning more than you're producing. The model had to solve sequencing and batch-sizing together, across every plant, at once.</p>
+        <h5>The geography constraint</h5>
+        <p>Even a perfect changeover schedule at one plant can create a bad outcome for the network. US demand isn't evenly distributed — it's concentrated on the coasts, especially the East, with a lot of empty geography in the middle. One of our highest-capacity plants sat closer to the West Coast. Producing more there just because a line had spare capacity could mean shipping cross-country to where demand actually was — trading a manufacturing win for a freight loss. Plant-level KPIs (yield, uptime, changeover time) don't see that trade-off. An end-to-end planner has to see it anyway.</p>
+        <h5>Result</h5>
+        <p>The redesigned changeover sequencing freed 20–30 additional days of manufacturing capacity across the network — enough to internalize roughly 6M bars a year previously made by a third-party co-manufacturer, worth about $2M/year.</p>
+        <h5>What it taught me</h5>
+        <p>This is the project I'd talk about for decades to come, regardless of whatever bigger things I go on to achieve. Two years, and I loved almost every hour of the complexity, because it was never just an optimization problem — it was a data-archaeology problem, a change-management problem, a judgment call about when to trust an exceptional person over an average one, a geography problem, and a multi-stakeholder program-management problem, all stacked on top of a genuinely fun operations-research core. I'm immensely grateful I got to run this early in my career — it shaped my foundations in a way nothing else could have, and gave me the intuition and skills I now use daily, regardless of industry or the nature of the problem in front of me. That foundation is exactly the asset I carry into this ever-changing world of autonomous AI and agents.</p>
+      </div>
+      <div class="g"><span>Capacity Optimization</span><span>Multi-Depot Traveling Salesman Problem</span><span>Tribal-Knowledge Data Collection</span><span>Network Geography Trade-offs</span></div>
+    </div>
+
+    <div class="card bg-blue span-2 modal-trigger" data-tab="work" data-modal="m-whirl">
+      <div class="proj-kicker"><span class="proj-orb"><img src="https://logo.clearbit.com/whirlpool.com" onerror="this.src='https://www.google.com/s2/favicons?domain=whirlpool.com&sz=64'"></span>STUDENT CONSULTANT · WHIRLPOOL</div>
+      <div class="proj-title">Three six-figure wins, one four-month engagement</div>
+      <div class="proj-hook">Inbound load smoothing, sourcing risk hedging, and fulfillment visibility — ~$2.5M/yr combined.</div>
+      <div class="proj-tags"><span class="ptag">Inbound Visibility</span><span class="ptag">Sourcing &amp; Risk Hedging</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-whirl">
+      <div class="k">Whirlpool · Student Consultant</div>
+      <div class="t">Three six-figure wins, one four-month engagement</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>Distribution centers absorbed avoidable labor cost from uneven inbound loads; heavy-electronics sourcing carried unpriced risk; fulfillment delays were discovered after the fact, not managed in the moment.</p>
+        <h5>Approach</h5>
+        <p>Built load-smoothing analysis and visibility dashboards for inbound freight, re-evaluated sourcing contracts with risk hedging layered in, and built end-to-end visibility tooling to surface delays as they happened.</p>
+        <h5>Result</h5>
+        <p>$500K/yr from load smoothing, $1M/yr from sourcing renegotiation and hedging, $1M/yr from fulfillment visibility — roughly $2.5M/yr combined.</p>
+        <h5>What it taught me</h5>
+        <p>You don't need a new department to find seven figures — you need to instrument the parts of the process nobody's looking at closely.</p>
+      </div>
+      <div class="g"><span>Inbound Visibility</span><span>Sourcing &amp; Risk Hedging</span><span>Fulfillment Analytics</span></div>
+    </div>
+
+    <div class="card bg-silver span-2 modal-trigger" data-tab="work" data-modal="m-dat">
+      <div class="proj-kicker"><span class="proj-orb"><img src="https://logo.clearbit.com/dat.com" onerror="this.src='https://www.google.com/s2/favicons?domain=dat.com&sz=64'"></span>SUPPLY CHAIN ANALYST · DAT SOLUTIONS</div>
+      <div class="proj-title">Freight-rate prediction at scale, for 150+ clients</div>
+      <div class="proj-hook">Automated regression models turning fragmented multi-system TMS data into one forecasting pipeline.</div>
+      <div class="proj-tags"><span class="ptag">Regression Forecasting</span><span class="ptag">SQL · Tableau · Alteryx</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-dat">
+      <div class="k">DAT Solutions · Supply Chain Analyst</div>
+      <div class="t">Freight-rate prediction at scale, for 150+ clients</div>
+      <div class="b">
+        <h5>Problem</h5>
+        <p>Freight rates move constantly, and clients were pricing shipments off stale or manual benchmarks with no consistent way to check a quote against the market.</p>
+        <h5>Approach</h5>
+        <p>Collected and processed data from multiple TMS systems, engineered features for time-series forecasting, and built and automated regression-based rate models — validating through hypothesis testing.</p>
+        <h5>Result</h5>
+        <p>Automated rate models running for 150+ global clients, replacing manual benchmarking with a repeatable, testable pipeline.</p>
+        <h5>What it taught me</h5>
+        <p>Validating a forecast against a real baseline, not just publishing a number, is a habit I built here — years before Forecast Value Added gave that habit a name.</p>
+      </div>
+      <div class="g"><span>Freight Rate Prediction</span><span>150+ Global Clients</span><span>SQL · Tableau · Alteryx</span></div>
+    </div>
+
+    <div class="card bg-indigo span-4 modal-trigger" data-tab="work" data-modal="m-fibc">
+      <div class="proj-kicker"><span class="proj-orb">🧵</span>INDEPENDENT STUDY · NOT A CLIENT ENGAGEMENT</div>
+      <div class="proj-title">Testing my frameworks in an industry I'd never worked in</div>
+      <div class="proj-hook">Self-directed AI-readiness study for FIBC / industrial packaging manufacturing — public data, informational conversations, zero client relationship.</div>
+      <div class="proj-tags"><span class="ptag">AI Readiness Framework</span><span class="ptag">Process Maturity Scoring</span></div>
+      <div class="proj-cta">Explore →</div>
+    </div>
+    <div class="modal-source" id="m-fibc">
+      <div class="k">Independent Study · Self-Initiated, Unpaid</div>
+      <div class="t">Testing my frameworks in an industry I'd never worked in</div>
+      <div class="b">
+        <h5>Why</h5>
+        <p>Does the way I think about operations problems — cost trade-offs, process maturity, data readiness — transfer to an industry I know nothing about? FIBC manufacturing (industrial woven bags used across chemicals, agriculture, and construction) was a good stress test: physical, global, cost-sensitive, and nowhere near my résumé. No client asked for this, and there was no deadline.</p>
+        <h5>Approach</h5>
+        <p>Built a full discovery toolkit from scratch — a process swimlane, a structured interview guide, a 1–5 process-maturity scoring model, a data inventory, and a prioritized gap log — using a real manufacturer as the case study, from public information and conversations I initiated myself. Translated it into an AI-transformation strategy: quick-win ROI use cases, a build-vs-buy framework, and a phased 12-month roadmap.</p>
+        <h5>Result</h5>
+        <p>A complete, end-to-end AI-transformation strategy built for a manufacturer I had no prior relationship with, using only public information and self-initiated conversations.</p>
+        <h5>What it taught me</h5>
+        <p>The frameworks travel. The savings numbers change by industry, but the discipline — audit the data before you buy the model, find the 90-day win before the 12-month one — held up somewhere with zero overlap with food, freight, or hardware.</p>
+      </div>
+      <div class="g"><span>Independent Study — Not a Client Engagement</span><span>AI Readiness Framework</span><span>Process Maturity Scoring</span></div>
+    </div>
+
+    <!-- ══ WRITING ══ -->
+    <div class="row-label" data-tab="writing">Writing &amp; Thought Leadership<div class="line"></div></div>
+
+    <div class="card bg-white span-2" data-tab="writing">
+      <div class="write-kicker">Essay · Labor Markets &amp; AI</div>
+      <div class="write-title">Your Career Is a SKU. The Great Changeover Has Begun.</div>
+      <div class="write-desc">A supply-chain read on the AI jobs crisis, using Engels' Pause and the research on long-term-unemployment stigma to argue the real risk is a timing mismatch — plus a "Workforce S&amp;OP" framework for what leaders should do about it.</div>
+      <a class="write-link" href="#" target="_blank">Read the full essay →</a>
+    </div>
+
+    <div class="card bg-white span-2" data-tab="writing">
+      <div class="write-kicker">Essay · Demand Forecasting &amp; Agentic AI</div>
+      <div class="write-title">Was the Forecast Ever Right Before We Touched It?</div>
+      <div class="write-desc">Roughly half the time a human "improves" a forecast, they make it worse. Uses Forecast Value Added and algorithm-aversion research to ask what happens when the vendor selling the model also builds the agent grading it.</div>
+      <a class="write-link" href="#" target="_blank">Read the full essay →</a>
+    </div>
+
+    <!-- ══ LEADERSHIP ══ -->
+    <div class="card bg-dark span-4" data-tab="about">
+      <div class="lead-h">Because the Best Operations Are Built by Empowered, Diverse Teams</div>
+      <div class="lead-grid">
+        <div class="lead-item"><span class="icon">🎤</span><div class="text"><strong>Championed DE&amp;I initiatives</strong> across General Mills — organization-wide workshops building a more inclusive culture, alongside Core Committee work with Women in Supply Chain (WiSC)</div></div>
+        <div class="lead-item"><span class="icon">📚</span><div class="text"><strong>SAPAC Facilitator &amp; Change Advocate</strong> at Michigan Ross — peer education and campus-wide wellbeing</div></div>
+        <div class="lead-item"><span class="icon">🌱</span><div class="text"><strong>Mentored at-risk youth</strong> through Make a Difference — supporting academic success for children under 18</div></div>
+      </div>
+    </div>
+
+    <!-- ══ TESTIMONIALS (scrolling ribbon) ══ -->
+    <div class="card bg-white span-4" data-tab="about">
+      <div class="testi-h">In Their Words</div>
+      <div class="testi-marquee">
+        <div class="testi-track">
+          <div class="testimonial">
+            <p>"Ankita is an exceptionally detail-oriented professional with strong end-to-end supply chain expertise... One of Ankita's greatest strengths is her resilience and positive attitude — she has remained focused, adaptable, and committed to her goals throughout the project lifecycle, approaching feedback constructively and using it to continuously improve. Overall, Ankita is an extremely capable, intelligent, and high-impact contributor — a valuable asset to the organization."</p>
+            <div class="testimonial-attr"><strong>Swati Bhatnagar</strong><span>Manager, Samsara</span></div>
+          </div>
+          <div class="testimonial">
+            <p>"You demonstrated excellent initiative — setting up the project to gather initial feedback from end users was a smart approach, and bringing it to the team for final integration helped streamline the process, enabling it to be integrated quickly."</p>
+            <div class="testimonial-attr"><strong>Engineering Partner</strong></div>
+          </div>
+          <div class="testimonial">
+            <p>"Ankita played a key role in improving our PLM process — she proactively engaged with multiple business users to identify pain points and consolidated their input into a well-structured requirements proposal. What stood out was her ability to quickly grasp low-level technical details and bridge the gap between business needs and technical teams. Her structured thinking, attention to detail, and collaborative approach made her a valuable contributor."</p>
+            <div class="testimonial-attr"><strong>PLM Program Partner</strong></div>
+          </div>
+          <div class="testimonial">
+            <p>"Ankita is effective at working backwards from both wins and losses, which is particularly helpful for root cause analysis. She brings strong quantitative skills and a clear knowledge of service-level based planning, which bolsters the conversations she has with stakeholders."</p>
+            <div class="testimonial-attr"><strong>Planning Partner</strong></div>
+          </div>
+          <div class="testimonial">
+            <p>"I definitely appreciate Ankita diving in head first into our Operations data. All of Operations is a genuinely large task — probably more than can be completed in a six-month rotation with a lot of holidays in it. Ideally, we'd have been able to keep Ankita for a longer term."</p>
+            <div class="testimonial-attr"><strong>Operations Partner</strong></div>
+          </div>
+          <div class="testimonial" aria-hidden="true">
+            <p>"Ankita is an exceptionally detail-oriented professional with strong end-to-end supply chain expertise... One of Ankita's greatest strengths is her resilience and positive attitude — she has remained focused, adaptable, and committed to her goals throughout the project lifecycle, approaching feedback constructively and using it to continuously improve. Overall, Ankita is an extremely capable, intelligent, and high-impact contributor — a valuable asset to the organization."</p>
+            <div class="testimonial-attr"><strong>Swati Bhatnagar</strong><span>Manager, Samsara</span></div>
+          </div>
+          <div class="testimonial" aria-hidden="true">
+            <p>"You demonstrated excellent initiative — setting up the project to gather initial feedback from end users was a smart approach, and bringing it to the team for final integration helped streamline the process, enabling it to be integrated quickly."</p>
+            <div class="testimonial-attr"><strong>Engineering Partner</strong></div>
+          </div>
+          <div class="testimonial" aria-hidden="true">
+            <p>"Ankita played a key role in improving our PLM process — she proactively engaged with multiple business users to identify pain points and consolidated their input into a well-structured requirements proposal. What stood out was her ability to quickly grasp low-level technical details and bridge the gap between business needs and technical teams. Her structured thinking, attention to detail, and collaborative approach made her a valuable contributor."</p>
+            <div class="testimonial-attr"><strong>PLM Program Partner</strong></div>
+          </div>
+          <div class="testimonial" aria-hidden="true">
+            <p>"Ankita is effective at working backwards from both wins and losses, which is particularly helpful for root cause analysis. She brings strong quantitative skills and a clear knowledge of service-level based planning, which bolsters the conversations she has with stakeholders."</p>
+            <div class="testimonial-attr"><strong>Planning Partner</strong></div>
+          </div>
+          <div class="testimonial" aria-hidden="true">
+            <p>"I definitely appreciate Ankita diving in head first into our Operations data. All of Operations is a genuinely large task — probably more than can be completed in a six-month rotation with a lot of holidays in it. Ideally, we'd have been able to keep Ankita for a longer term."</p>
+            <div class="testimonial-attr"><strong>Operations Partner</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AWARDS ══ -->
+    <div class="card bg-white span-4" data-tab="about">
+      <div class="awards-h">Awards &amp; Recognition</div>
+      <div class="awards-mini-grid">
+        <div class="award-chip"><span class="ic">🏅</span><div><div class="an">Leader's Choice</div><div class="ao">General Mills, 2023</div></div></div>
+        <div class="award-chip"><span class="ic">⭐</span><div><div class="an">Shining Star</div><div class="ao">General Mills, 2022</div></div></div>
+        <div class="award-chip"><span class="ic">🚀</span><div><div class="an">Super Squad</div><div class="ao">General Mills, 2022</div></div></div>
+        <div class="award-chip"><span class="ic">💡</span><div><div class="an">Change Advocate</div><div class="ao">Michigan Ross, 2024</div></div></div>
+        <div class="award-chip"><span class="ic">🎖️</span><div><div class="an">Merit Scholarship</div><div class="ao">Michigan, 2024</div></div></div>
+        <div class="award-chip"><span class="ic">🏆</span><div><div class="an">5th Rank, Industrial Engineering</div><div class="ao">VTU, 2019</div></div></div>
+        <div class="award-chip"><span class="ic">📝</span><div><div class="an">Published Researcher</div><div class="ao">VTU, 2019</div></div></div>
+      </div>
+    </div>
+
+    <!-- ══ FOOTER ══ -->
+    <div class="card bg-dark span-4 footer-card">
+      <div>
+        <div class="footer-h">Let's Connect</div>
+        <div class="footer-sub">Building at the intersection of supply chain optimization, demand forecasting, and agentic AI.</div>
+      </div>
+      <div class="footer-links">
+        <a class="footer-link" href="https://www.linkedin.com/in/ankita-pamidighantam-b8113613a/" target="_blank">LinkedIn</a>
+        <a class="footer-link" href="mailto:ankitanh@gmail.com">Email</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="footnote">Ankita Pam · Supply Chain Leader &amp; AI Systems Builder · © 2026</div>
+</div>
+
+<!-- ══════════ MODAL SHELL ══════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalCloseBtn">CLOSE</button>
+    <div class="modal-kicker" id="modalKicker"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-tags" id="modalTags"></div>
+  </div>
+</div>
+
+<script>
+  // tab filter
+  const tabs = document.querySelectorAll('.tab');
+  const cards = document.querySelectorAll('[data-tab]');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    const sel = t.dataset.filter;
+    cards.forEach(c => {
+      c.style.display = (sel === 'all' || c.dataset.tab === sel) ? '' : 'none';
+    });
+  }));
+
+  // modal system
+  const overlay = document.getElementById('modalOverlay');
+  const mKicker = document.getElementById('modalKicker');
+  const mTitle  = document.getElementById('modalTitle');
+  const mBody   = document.getElementById('modalBody');
+  const mTags   = document.getElementById('modalTags');
+
+  function openModal(id) {
+    const src = document.getElementById(id);
+    if (!src) return;
+    mKicker.innerHTML = src.querySelector('.k').innerHTML;
+    mTitle.innerHTML  = src.querySelector('.t').innerHTML;
+    mBody.innerHTML   = src.querySelector('.b').innerHTML;
+    mTags.innerHTML   = src.querySelector('.g') ? src.querySelector('.g').innerHTML : '';
+    overlay.classList.add('open');
+    document.body.classList.add('modal-locked');
+    overlay.querySelector('.modal-box').scrollTop = 0;
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.classList.remove('modal-locked');
+  }
+  document.querySelectorAll('.modal-trigger').forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.modal));
+  });
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
